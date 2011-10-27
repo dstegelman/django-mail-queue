@@ -1,1 +1,1 @@
-http://docs.derek.stegelman.com/django-mailer
+http://docs.derek.stegelman.com/django-mail-queue

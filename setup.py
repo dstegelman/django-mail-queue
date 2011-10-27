@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 version = '1.0'
 
-setup(name='django-mailer',
+setup(name='django-mail-queue',
       version=version,
       description="Simple Mail Queuing for Django",
       long_description=open("README.md", "r").read(),
@@ -17,10 +17,10 @@ setup(name='django-mailer',
           "Topic :: Utilities",
           "License :: OSI Approved :: MIT",
           ],
-      keywords='django-mailer',
+      keywords='django-mail-queue',
       author='Derek Stegelman',
       author_email='dstegelman@gmail.com',
-      url='http://github.com/dstegelman/django-mailer',
+      url='http://github.com/dstegelman/django-mail-queue',
       license='BSD',
       packages=find_packages(),
       include_package_data=True,
