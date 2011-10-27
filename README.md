@@ -1,0 +1,1 @@
+http://docs.derek.stegelman.com/django-mailer
