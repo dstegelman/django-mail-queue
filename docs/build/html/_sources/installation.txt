@@ -17,7 +17,7 @@ Installation
 
 Using ``pip``::
 
-    pip install https://github.com/dstegelman/django-mail-queue
+    pip install git+git://github.com/dstegelman/django-mail-queue.git
 
 Go to https://github.com/dstegelman/django-mail-queue if you need to download a package or clone the repo.
 
