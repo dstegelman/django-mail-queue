@@ -1,0 +1,11 @@
+setup.py
+django_mail_queue.egg-info/PKG-INFO
+django_mail_queue.egg-info/SOURCES.txt
+django_mail_queue.egg-info/dependency_links.txt
+django_mail_queue.egg-info/not-zip-safe
+django_mail_queue.egg-info/top_level.txt
+mailqueue/__init__.py
+mailqueue/admin.py
+mailqueue/models.py
+mailqueue/urls.py
+mailqueue/views.py
