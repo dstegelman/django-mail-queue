@@ -33,10 +33,9 @@ class MailerMessage(models.Model):
             msg.content_subtype = "html"
             msg.send()
             self.sent = True
+            self.save()
         except:
-            self.sent = False
-        self.save()
-        
+            pass        
     
 @receiver(post_save, sender=MailerMessage)
 def send_reciever(sender, **kwargs):
