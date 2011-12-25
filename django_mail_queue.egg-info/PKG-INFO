@@ -1,12 +1,12 @@
 Metadata-Version: 1.0
 Name: django-mail-queue
-Version: 1.0
+Version: 1.0.1
 Summary: Simple Mail Queuing for Django
 Home-page: http://github.com/dstegelman/django-mail-queue
 Author: Derek Stegelman
 Author-email: dstegelman@gmail.com
-License: BSD
-Description: http://docs.derek.stegelman.com/django-mail-queue
+License: MIT
+Description: Mail Queueing for Django
 Keywords: django-mail-queue
 Platform: UNKNOWN
 Classifier: Development Status :: 5 - Production/Stable

@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
-version = '1.0'
+version = '1.0.1'
 
 setup(name='django-mail-queue',
       version=version,
       description="Simple Mail Queuing for Django",
-      long_description=open("README.md", "r").read(),
+      long_description="Mail Queueing for Django",
       classifiers=[
           "Development Status :: 5 - Production/Stable",
           "Environment :: Web Environment",
