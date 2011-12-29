@@ -14,6 +14,7 @@ Create a new MailerMesage() object::
     new_message.to_address = "someone@example.com"
     new_message.from_address = "hello@example.com"
     new_message.content = "Mail content"
+    new_message.app = "Name of your App that is sending the email."
     new_message.save()
     
 When save is called, Django will immediately try to send the email.  Should it fail, it will be marked as unsent,
