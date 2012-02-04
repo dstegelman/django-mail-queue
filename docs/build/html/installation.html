@@ -1,18 +1,22 @@
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Quick Start Guide &mdash; Django Mail Queue v1.0.1 documentation</title>
-    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <title>Quick Start Guide &mdash; Django Mail Queue 1.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.0.1',
+        VERSION:     '1.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -21,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Django Mail Queue v1.0.1 documentation" href="index.html" />
+    <link rel="top" title="Django Mail Queue 1.1.0 documentation" href="index.html" />
     <link rel="next" title="Usage" href="usage.html" />
     <link rel="prev" title="Welcome to Django Mail Queue’s documentation!" href="index.html" /> 
   </head>
@@ -38,7 +42,7 @@
         <li class="right" >
           <a href="index.html" title="Welcome to Django Mail Queue’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Django Mail Queue v1.0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Django Mail Queue 1.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -53,13 +57,14 @@
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <p>Django Mail Queue requires:</p>
 <div class="highlight-python"><pre>south
-django 1.3 or greater</pre>
+django 1.3 or greater
+celery</pre>
 </div>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>Using <tt class="docutils literal"><span class="pre">pip</span></tt>:</p>
-<div class="highlight-python"><pre>pip install git+git://github.com/dstegelman/django-mail-queue.git</pre>
+<div class="highlight-python"><pre>pip install django-mail-queue</pre>
 </div>
 <p>Go to <a class="reference external" href="https://github.com/dstegelman/django-mail-queue">https://github.com/dstegelman/django-mail-queue</a> if you need to download a package or clone the repo.</p>
 </div>
@@ -79,10 +84,14 @@ django 1.3 or greater</pre>
 </pre></div>
 </div>
 </div>
-<div class="section" id="cron-job">
-<h2>Cron Job<a class="headerlink" href="#cron-job" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="cron-job-optional">
+<h2>Cron Job (optional)<a class="headerlink" href="#cron-job-optional" title="Permalink to this headline">¶</a></h2>
 <p>Setup a cron job to hit the root of mail-queue.  So the example above would hit /mail-queue.  This runs the mail queue which grabs emails and sends them.  To decrease load, it only tries
 to send 30 emails at a time.</p>
+</div>
+<div class="section" id="celery">
+<h2>Celery<a class="headerlink" href="#celery" title="Permalink to this headline">¶</a></h2>
+<p>Instead of using the cron job the celery task worker will attempt to send email email when it&#8217;s saved.  The cron job will clean up any emails that get lost.</p>
 </div>
 </div>
 
@@ -98,7 +107,8 @@ to send 30 emails at a time.</p>
 <li><a class="reference internal" href="#requirements">Requirements</a></li>
 <li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#setup">Setup</a></li>
-<li><a class="reference internal" href="#cron-job">Cron Job</a></li>
+<li><a class="reference internal" href="#cron-job-optional">Cron Job (optional)</a></li>
+<li><a class="reference internal" href="#celery">Celery</a></li>
 </ul>
 </li>
 </ul>
@@ -117,7 +127,7 @@ to send 30 emails at a time.</p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -143,12 +153,12 @@ to send 30 emails at a time.</p>
         <li class="right" >
           <a href="index.html" title="Welcome to Django Mail Queue’s documentation!"
              >previous</a> |</li>
-        <li><a href="index.html">Django Mail Queue v1.0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Django Mail Queue 1.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, Derek Stegelman.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>
 </html>

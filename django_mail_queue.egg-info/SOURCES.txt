@@ -7,5 +7,9 @@ django_mail_queue.egg-info/top_level.txt
 mailqueue/__init__.py
 mailqueue/admin.py
 mailqueue/models.py
+mailqueue/tasks.py
 mailqueue/urls.py
 mailqueue/views.py
+mailqueue/migrations/0001_initial.py
+mailqueue/migrations/0002_auto__add_field_mailermessage_html_content.py
+mailqueue/migrations/__init__.py

@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: django-mail-queue
-Version: 1.0.1
+Version: 1.1.0
 Summary: Simple Mail Queuing for Django
 Home-page: http://github.com/dstegelman/django-mail-queue
 Author: Derek Stegelman
