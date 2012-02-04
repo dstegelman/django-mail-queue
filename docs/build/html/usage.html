@@ -1,18 +1,22 @@
 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Usage &mdash; Django Mail Queue v1.0.1 documentation</title>
-    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <title>Usage &mdash; Django Mail Queue 1.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '1.0.1',
+        VERSION:     '1.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -21,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Django Mail Queue v1.0.1 documentation" href="index.html" />
+    <link rel="top" title="Django Mail Queue 1.1.0 documentation" href="index.html" />
     <link rel="next" title="License" href="license.html" />
     <link rel="prev" title="Quick Start Guide" href="installation.html" /> 
   </head>
@@ -38,7 +42,7 @@
         <li class="right" >
           <a href="installation.html" title="Quick Start Guide"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Django Mail Queue v1.0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Django Mail Queue 1.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -59,6 +63,7 @@
 <span class="n">new_message</span><span class="o">.</span><span class="n">to_address</span> <span class="o">=</span> <span class="s">&quot;someone@example.com&quot;</span>
 <span class="n">new_message</span><span class="o">.</span><span class="n">from_address</span> <span class="o">=</span> <span class="s">&quot;hello@example.com&quot;</span>
 <span class="n">new_message</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="s">&quot;Mail content&quot;</span>
+<span class="n">new_message</span><span class="o">.</span><span class="n">html_content</span> <span class="o">=</span> <span class="s">&quot;&lt;h1&gt;Mail Content&lt;/h1&gt;&quot;</span>
 <span class="n">new_message</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="s">&quot;Name of your App that is sending the email.&quot;</span>
 <span class="n">new_message</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 </pre></div>
@@ -97,7 +102,7 @@ but it is not present yet.</p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -123,12 +128,12 @@ but it is not present yet.</p>
         <li class="right" >
           <a href="installation.html" title="Quick Start Guide"
              >previous</a> |</li>
-        <li><a href="index.html">Django Mail Queue v1.0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Django Mail Queue 1.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, Derek Stegelman.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.2.
     </div>
   </body>
 </html>
