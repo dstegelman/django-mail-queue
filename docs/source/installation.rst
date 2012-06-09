@@ -8,8 +8,9 @@ Requirements
 Django Mail Queue requires::
 
     south
-    django 1.3 or greater
+    django 1.4 or greater
     celery
+    django-celery
 
 
 Installation
