@@ -14,6 +14,7 @@ Create a new MailerMesage() object::
     new_message.to_address = "someone@example.com"
     new_message.from_address = "hello@example.com"
     new_message.content = "Mail content"
+    new_message.html_content = "<h1>Mail Content</h1>"
     new_message.app = "Name of your App that is sending the email."
     new_message.save()
     
