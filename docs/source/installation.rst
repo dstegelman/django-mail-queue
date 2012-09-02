@@ -39,8 +39,7 @@ Add URL-patterns::
     urlpatterns = patterns('',
         (r'^mail-queue/', include('mailqueue.urls')),
     )
-    
-    
+
 Cron Job (optional)
 -------------------
 
@@ -50,5 +49,9 @@ to send 30 emails at a time.
 
 Celery
 ------
+
+Celery is enabled by default, you can turn off the use of Celery and send emails in real time using ``MAILQUEUE_CELERY`` in settings::
+
+    MAILQUEUE_CELERY = False
 
 Instead of using the cron job the celery task worker will attempt to send email email when it's saved.  The cron job will clean up any emails that get lost.

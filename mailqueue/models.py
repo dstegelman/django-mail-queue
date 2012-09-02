@@ -12,9 +12,11 @@
 #---------------------------------------------#
 from django.db import models
 from django.core.mail import EmailMultiAlternatives
-from mailqueue.tasks import *
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.conf import settings
+
+from mailqueue.tasks import *
 
 class MailerMessage(models.Model):
     subject = models.CharField(max_length=250, blank=True, null=True)
@@ -40,10 +42,14 @@ class MailerMessage(models.Model):
                 msg.send()
                 self.sent = True
                 self.save()
-            except:
-                pass
+            except Exception, e:
+                print("mail queue exception %s" % e)
 
 
 @receiver(post_save, sender=MailerMessage)
 def send_post_save(sender, instance, signal, *args, **kwargs):
-    send_mail.delay(instance)
+    MAILQUEUE_CELERY = getattr(settings, 'MAILQUEUE_CELERY', True)
+    if MAILQUEUE_CELERY:
+        send_mail.delay(instance)
+    else:
+        instance.send()
