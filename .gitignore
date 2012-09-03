@@ -1,3 +1,4 @@
 *.pyc
 dist/
 django_mail_queue.egg-info/
+.idea
