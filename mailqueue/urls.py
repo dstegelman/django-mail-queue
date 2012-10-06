@@ -1,8 +1,6 @@
-from django.conf.urls.defaults import patterns, include, url
-from mailqueue.views import *
+from django.conf.urls import patterns, url
+from mailqueue.views import run_mail_job
 
 urlpatterns = patterns('',
-    # Examples:
-    url(r'^$', run_mail_job, name='home'),
-
+    url(r'^$', run_mail_job, name='run_mail_job'),
 )
