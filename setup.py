@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.2.1'
+version = '1.2.2'
 
 setup(name='django-mail-queue',
       version=version,
@@ -18,9 +18,9 @@ setup(name='django-mail-queue',
           "License :: OSI Approved :: MIT License",
           ],
       keywords='django-mail-queue',
-      author='Derek Stegelman',
-      author_email='dstegelman@gmail.com',
-      url='http://github.com/dstegelman/django-mail-queue',
+      author='Kansas State University Web Team',
+      author_email='omeweb@k-state.edu',
+      url='http://github.com/kstateome/django-mail-queue',
       license='MIT',
       packages=find_packages(),
       include_package_data=True,
