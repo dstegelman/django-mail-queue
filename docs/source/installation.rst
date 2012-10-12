@@ -20,7 +20,7 @@ Using ``pip``::
 
     pip install django-mail-queue
 
-Go to https://github.com/dstegelman/django-mail-queue if you need to download a package or clone the repo.
+Go to https://github.com/kstateome/django-mail-queue if you need to download a package or clone the repo.
 
 
 Setup
@@ -50,8 +50,8 @@ to send 30 emails at a time.
 Celery
 ------
 
-Celery is enabled by default, you can turn off the use of Celery and send emails in real time using ``MAILQUEUE_CELERY`` in settings::
+Celery is disabled by default(in 1.2.1), you can turn it on the use of Celery and send emails in real time using ``MAILQUEUE_CELERY`` in settings::
 
-    MAILQUEUE_CELERY = False
+    MAILQUEUE_CELERY = True
 
 Instead of using the cron job the celery task worker will attempt to send email email when it's saved.  The cron job will clean up any emails that get lost.
