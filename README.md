@@ -4,7 +4,7 @@ Installation
     
 Read me some docs
 
-    http://readthedocs.org/docs/django-mail-queue/en/latest/
+http://readthedocs.org/docs/django-mail-queue/en/latest/
 
 Mail Queue provides an admin interface to view all attempted emails and actions for resending failed messages.
 
