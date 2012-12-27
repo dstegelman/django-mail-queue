@@ -2,7 +2,7 @@ License
 =======
 
 Django Mail Queue - Queue up mail
-Copyright (C) 2012 Kansas State University Web Team
+Copyright (C) 2012 Derek Stegelman
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

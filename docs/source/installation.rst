@@ -9,9 +9,6 @@ Django Mail Queue requires::
 
     south
     django 1.4 or greater
-    celery
-    django-celery
-
 
 Installation
 ------------
@@ -21,7 +18,6 @@ Using ``pip``::
     pip install django-mail-queue
 
 Go to https://github.com/kstateome/django-mail-queue if you need to download a package or clone the repo.
-
 
 Setup
 -----
@@ -47,10 +43,10 @@ Setup a cron job to hit the root of mail-queue.  So the example above would hit 
 to send 30 emails at a time.
 
 
-Celery
+Celery (Optional)
 ------
 
-Celery is disabled by default(in 1.2.1), you can turn it on the use of Celery and send emails in real time using ``MAILQUEUE_CELERY`` in settings::
+Celery is disabled by default, you can turn it on the use of Celery and send emails in real time using ``MAILQUEUE_CELERY`` in settings::
 
     MAILQUEUE_CELERY = True
 
