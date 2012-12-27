@@ -9,17 +9,17 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         
         # Adding field 'MailerMessage.html_content'
-        db.add_column('mailer_mailermessage', 'html_content', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
+        db.add_column('mailqueue_mailermessage', 'html_content', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
 
 
     def backwards(self, orm):
         
         # Deleting field 'MailerMessage.html_content'
-        db.delete_column('mailer_mailermessage', 'html_content')
+        db.delete_column('mailqueue_mailermessage', 'html_content')
 
 
     models = {
-        'mailer.mailermessage': {
+        'mailqueue.mailermessage': {
             'Meta': {'object_name': 'MailerMessage'},
             'app': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
             'content': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
@@ -32,4 +32,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['mailer']
+    complete_apps = ['mailqueue']

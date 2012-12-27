@@ -9,7 +9,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         
         # Adding model 'MailerMessage'
-        db.create_table('mailer_mailermessage', (
+        db.create_table('mailqueue_mailermessage', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('subject', self.gf('django.db.models.fields.CharField')(max_length=250, null=True, blank=True)),
             ('to_address', self.gf('django.db.models.fields.EmailField')(max_length=250)),
@@ -18,17 +18,17 @@ class Migration(SchemaMigration):
             ('app', self.gf('django.db.models.fields.CharField')(max_length=250, null=True, blank=True)),
             ('sent', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
-        db.send_create_signal('mailer', ['MailerMessage'])
+        db.send_create_signal('mailqueue', ['MailerMessage'])
 
 
     def backwards(self, orm):
         
         # Deleting model 'MailerMessage'
-        db.delete_table('mailer_mailermessage')
+        db.delete_table('mailqueue_mailermessage')
 
 
     models = {
-        'mailer.mailermessage': {
+        'mailqueue.mailermessage': {
             'Meta': {'object_name': 'MailerMessage'},
             'app': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
             'content': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
@@ -40,4 +40,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['mailer']
+    complete_apps = ['mailqueue']
