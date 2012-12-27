@@ -14,7 +14,6 @@ from django.dispatch import receiver
 from django.conf import settings
 
 from mailqueue import defaults
-from mailqueue.tasks import send_mail
 
 class MailerMessage(models.Model):
     subject = models.CharField(max_length=250, blank=True, null=True)
@@ -51,8 +50,8 @@ class MailerMessage(models.Model):
 
 @receiver(post_save, sender=MailerMessage)
 def send_post_save(sender, instance, signal, *args, **kwargs):
-    MAILQUEUE_CELERY = getattr(settings, 'MAILQUEUE_CELERY', defaults.MAILQUEUE_CELERY)
-    if MAILQUEUE_CELERY:
+    if getattr(settings, 'MAILQUEUE_CELERY', defaults.MAILQUEUE_CELERY):
+        from mailqueue.tasks import send_mail
         send_mail.delay(instance)
     else:
         instance.send()

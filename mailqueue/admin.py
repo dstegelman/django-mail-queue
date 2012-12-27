@@ -1,5 +1,8 @@
 from django.contrib import admin
+from django.conf import settings
+
 from mailqueue.models import MailerMessage
+from mailqueue import defaults
 
 class MailerAdmin(admin.ModelAdmin):
     list_display = ('app', 'subject', 'to_address', 'sent', 'last_attempt')
@@ -9,7 +12,11 @@ class MailerAdmin(admin.ModelAdmin):
     def send_failed(self, request, queryset):
         emails = queryset.filter(sent=False)
         for email in emails:
-            email.send()
+            if getattr(settings, 'MAILQUEUE_CELERY', defaults.MAILQUEUE_CELERY):
+                from mailqueue.tasks import send_mail
+                send_mail.delay(email)
+            else:
+                email.send()
         self.message_user(request, "Emails queued.")
 
 admin.site.register(MailerMessage, MailerAdmin)
