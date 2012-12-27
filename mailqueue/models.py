@@ -25,7 +25,7 @@ class MailerMessage(models.Model):
     html_content = models.TextField(blank=True, null=True)
     app = models.CharField(max_length=250, blank=True, null=True)
     sent = models.BooleanField(default=False, editable=False)
-    last_attempt = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True)
+    last_attempt = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True, editable=False)
     
     def __unicode__(self):
         return self.subject

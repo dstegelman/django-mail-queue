@@ -2,14 +2,14 @@ from django.contrib import admin
 from mailqueue.models import MailerMessage
 
 class MailerAdmin(admin.ModelAdmin):
-    list_display = ('app', 'subject', 'to_address', 'sent')
-    search_fields = ['to_address']
+    list_display = ('app', 'subject', 'to_address', 'sent', 'last_attempt')
+    search_fields = ['to_address', 'subject', 'app', 'bcc_address']
     actions = ['send_failed']
 
     def send_failed(self, request, queryset):
         emails = queryset.filter(sent=False)
         for email in emails:
             email.send()
-        self.message_user(request, "Emails sent.")
+        self.message_user(request, "Emails queued.")
 
 admin.site.register(MailerMessage, MailerAdmin)
