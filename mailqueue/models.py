@@ -25,22 +25,25 @@ class MailerMessage(models.Model):
     app = models.CharField(max_length=250, blank=True, null=True)
     sent = models.BooleanField(default=False, editable=False)
     last_attempt = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True, editable=False)
-    
+
     def __unicode__(self):
         return self.subject
-                
+
     def send(self):
         if not self.sent:
             self.last_attempt = datetime.datetime.now()
             try:
                 subject, from_email, to = self.subject, self.from_address, self.to_address
                 text_content = self.content
-                msg = EmailMultiAlternatives(subject, text_content, from_email, [to]) 
+                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
                 if self.html_content:
                     html_content = self.html_content
                     msg.attach_alternative(html_content, "text/html")
                 if self.bcc_address:
-                    msg.bcc = [self.bcc_address]
+                    if ',' in self.bcc_address:
+                        msg.bcc = [ email.strip() for email in self.bcc_address.split(',') ]
+                    else:
+                        msg.bcc = [self.bcc_address, ]
                 msg.send()
                 self.sent = True
             except Exception, e:
