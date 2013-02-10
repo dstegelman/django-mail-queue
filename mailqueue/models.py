@@ -6,6 +6,9 @@
 #
 #---------------------------------------------#
 import datetime
+import logging
+
+logger = logging.getLogger('mailqueue')
 
 from django.db import models
 from django.core.mail import EmailMultiAlternatives
@@ -47,9 +50,8 @@ class MailerMessage(models.Model):
                 msg.send()
                 self.sent = True
             except Exception, e:
-                print("mail queue exception %s" % e)
+                logger.error('Mail Queue Exception: %s' % e)
             self.save()
-
 
 @receiver(post_save, sender=MailerMessage)
 def send_post_save(sender, instance, signal, *args, **kwargs):
