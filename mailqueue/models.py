@@ -6,6 +6,7 @@
 #
 #---------------------------------------------#
 import datetime
+from django.utils.timezone import utc
 
 from django.db import models
 from django.core.mail import EmailMultiAlternatives
@@ -31,7 +32,7 @@ class MailerMessage(models.Model):
 
     def send(self):
         if not self.sent:
-            self.last_attempt = datetime.datetime.now()
+            self.last_attempt = datetime.datetime.utcnow().replace(tzinfo=utc)
             try:
                 subject, from_email, to = self.subject, self.from_address, self.to_address
                 text_content = self.content
