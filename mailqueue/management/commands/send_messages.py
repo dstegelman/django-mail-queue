@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand, CommandError
 from optparse import make_option
+
 from mailqueue.models import MailerMessage
+from mailqueue import defaults
 
 class Command(BaseCommand):
     help = 'Sends queued emails'
@@ -12,7 +14,7 @@ class Command(BaseCommand):
             action='store',
             type='int',
             dest='limit',
-            default=30,
+            default=getattr(settings, 'MAILQUEUE_LIMIT', defaults.MAILQUEUE_LIMIT),
             help='Limit the number of emails to process'
         ),
     )
