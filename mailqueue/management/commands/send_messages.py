@@ -3,7 +3,6 @@ from optparse import make_option
 from mailqueue.models import MailerMessage
 
 class Command(BaseCommand):
-    args = '[--limit=LIMIT]'
     help = 'Sends queued emails'
 
     option_list = BaseCommand.option_list + (
@@ -14,12 +13,12 @@ class Command(BaseCommand):
             type='int',
             dest='limit',
             default=30,
-            help='Limit the number of emails to process'),
-        )
+            help='Limit the number of emails to process'
+        ),
+    )
 
     def handle(self, *args, **options):
         limit = options['limit']
-        print(limit)
 
         emails = MailerMessage.objects.filter(sent=False)[:limit]
         for email in emails:
