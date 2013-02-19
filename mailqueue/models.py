@@ -16,6 +16,14 @@ from django.conf import settings
 
 from mailqueue import defaults
 
+class MailerMessageManager(models.Manager):
+    def send_queued(self, limit=None):
+        if limit is None:
+            limit = getattr(settings, 'MAILQUEUE_LIMIT', defaults.MAILQUEUE_LIMIT)
+
+        for email in self.filter(sent=False)[:limit]:
+            email.send()
+
 class MailerMessage(models.Model):
     subject = models.CharField(max_length=250, blank=True, null=True)
     to_address = models.EmailField(max_length=250)
@@ -26,6 +34,8 @@ class MailerMessage(models.Model):
     app = models.CharField(max_length=250, blank=True, null=True)
     sent = models.BooleanField(default=False, editable=False)
     last_attempt = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True, editable=False)
+
+    objects = MailerMessageManager()
 
     def __unicode__(self):
         return self.subject
