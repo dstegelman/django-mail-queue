@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dstegelman/django-mail-queue.png?branch=master)](https://travis-ci.org/dstegelman/django-mail-queue)
+
 Django Mail Queue
 =================
 
