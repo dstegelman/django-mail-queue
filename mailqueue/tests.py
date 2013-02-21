@@ -1,8 +1,25 @@
 import unittest
+
 from django.core import mail
-from mailqueue.models import MailerMessage
+
+from .models import MailerMessage
+
 
 class MailQueueTestCase(unittest.TestCase):
+
+    def test_email(self):
+        mail.outbox = []
+
+        email = MailerMessage()
+        email.subject = 'Test Email'
+        email.to_address = 'foo@foo.com'
+        email.from_address = 'nope@foo.com'
+        email.content = 'Test'
+        email.app = 'Test App'
+
+        email.save()
+
+        self.assertEqual(mail.outbox[0].subject, 'Test Email')
 
     def test_single_bcc(self):
         mail.outbox = []
