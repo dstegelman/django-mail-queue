@@ -6,6 +6,7 @@
 #
 #---------------------------------------------#
 import datetime
+from django.utils.timezone import utc
 
 from django.db import models
 from django.core.mail import EmailMultiAlternatives
@@ -14,6 +15,14 @@ from django.dispatch import receiver
 from django.conf import settings
 
 from mailqueue import defaults
+
+class MailerMessageManager(models.Manager):
+    def send_queued(self, limit=None):
+        if limit is None:
+            limit = getattr(settings, 'MAILQUEUE_LIMIT', defaults.MAILQUEUE_LIMIT)
+
+        for email in self.filter(sent=False)[:limit]:
+            email.send()
 
 class MailerMessage(models.Model):
     subject = models.CharField(max_length=250, blank=True, null=True)
@@ -26,12 +35,14 @@ class MailerMessage(models.Model):
     sent = models.BooleanField(default=False, editable=False)
     last_attempt = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True, editable=False)
 
+    objects = MailerMessageManager()
+
     def __unicode__(self):
         return self.subject
 
     def send(self):
         if not self.sent:
-            self.last_attempt = datetime.datetime.now()
+            self.last_attempt = datetime.datetime.utcnow().replace(tzinfo=utc)
             try:
                 subject, from_email, to = self.subject, self.from_address, self.to_address
                 text_content = self.content
