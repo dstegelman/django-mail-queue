@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 from mailqueue.models import MailerMessage
 
 class Command(BaseCommand):
-    help = 'Sends queued emails'
+    help = 'Can be run as a cronjob or directly to send queued messages.'
 
     option_list = BaseCommand.option_list + (
         make_option(
