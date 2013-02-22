@@ -24,6 +24,18 @@ class MailerMessageManager(models.Manager):
         for email in self.filter(sent=False)[:limit]:
             email.send()
 
+    def clear_sent_messages(self, offset=None):
+        """ Deletes sent MailerMessage records """
+        if offset is None:
+            offset = getattr(settings, 'MAILQUEUE_CLEAR_OFFSET', defaults.MAILQUEUE_CLEAR_OFFSET)
+
+        if type(offset) is int:
+            offset = datetime.timedelta(hours=offset)
+
+        delete_before = datetime.datetime.utcnow().replace(tzinfo=utc) - offset
+        self.filter(sent=True, last_attempt__lte=delete_before).delete()
+
+
 class MailerMessage(models.Model):
     subject = models.CharField(max_length=250, blank=True, null=True)
     to_address = models.EmailField(max_length=250)
