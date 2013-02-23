@@ -42,7 +42,11 @@ class MailerMessage(models.Model):
 
     def send(self):
         if not self.sent:
-            self.last_attempt = datetime.datetime.utcnow().replace(tzinfo=utc)
+            if settings.USE_TZ:
+                # This change breaks SQLite usage.
+                self.last_attempt = datetime.datetime.utcnow().replace(tzinfo=utc)
+            else:
+                self.last_attempt = datetime.datetime.now()
             try:
                 subject, from_email, to = self.subject, self.from_address, self.to_address
                 text_content = self.content
