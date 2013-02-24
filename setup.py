@@ -1,6 +1,8 @@
 from setuptools import setup, find_packages
 
-version = '1.5.1'
+import mailqueue
+
+version = mailqueue.VERSION
 
 setup(name='django-mail-queue',
       version=version,
