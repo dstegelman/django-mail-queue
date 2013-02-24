@@ -6,7 +6,8 @@ import django
 DIRNAME = os.path.dirname(__file__)
 
 if django.VERSION[1] < 4:
-    # @todo - Need to learn about settings.configure.
+    # If the version is NOT django 4 or greater
+    # then remove the TZ setting.
 
     settings.configure(DEBUG=True,
                        DATABASES={
@@ -19,8 +20,7 @@ if django.VERSION[1] < 4:
                                        'django.contrib.contenttypes',
                                        'django.contrib.sessions',
                                        'django.contrib.admin',
-                                       'mailqueue',),
-                       USE_TZ=False)
+                                       'mailqueue',))
 else:
     settings.configure(DEBUG=True,
                        DATABASES={
