@@ -20,8 +20,7 @@ Create a new MailerMesage() object::
     new_message.save()
 
 When save is called, Django will immediately try to send the email.  Should it fail, it will be marked as unsent,
-and wait for the next time the job is called.  Mail Queue sends html emails by default.  I may add functionality to send text emails,
-but it is not present yet.  Of course, the BCC address is optional, as well as html content.
+and wait for the next time the job is called.  Of course, the BCC address is optional, as well as html content.
 
 
 
@@ -31,4 +30,3 @@ Sending to Multiple BCCs
 To include more than one BCC in your email, just separate the addresses with a comma::
 
     new_message.bcc_address = "one@mail.com, two@mail.com, three@mail.com"
-
