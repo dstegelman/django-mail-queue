@@ -8,7 +8,7 @@
 import datetime
 import logging
 
-logger = logging.getLogger('mailqueue')
+logger = logging.getLogger(__name__)
 
 from django.db import models
 from django.core.mail import EmailMultiAlternatives
