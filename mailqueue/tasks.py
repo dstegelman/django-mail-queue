@@ -1,7 +1,5 @@
 from celery.task import task
 
-
-#Cached Services
-@task()
+@task(name="tasks.send_mail")
 def send_mail(mailer):
     mailer.send()
