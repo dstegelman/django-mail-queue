@@ -44,6 +44,14 @@ class MailerMessage(models.Model):
     def __unicode__(self):
         return self.subject
 
+    def _save_without_sending(self, *args, **kwargs):
+        """
+        Saves the MailerMessage instance without sending the e-mail. This ensures
+        other models (e.g. `Attachment`) have something to relate to in the database.
+        """
+        self.do_not_save = True
+        super(MailerMessage, self).save(*args, **kwargs)
+
     def send(self):
         if not self.sent:
             if getattr(settings, 'USE_TZ', False):
@@ -72,6 +80,10 @@ class MailerMessage(models.Model):
 
 @receiver(post_save, sender=MailerMessage)
 def send_post_save(sender, instance, signal, *args, **kwargs):
+    if getattr(instance, "do_not_save", False):
+        instance.do_not_save = False
+        return
+
     if getattr(settings, 'MAILQUEUE_CELERY', defaults.MAILQUEUE_CELERY):
         from mailqueue.tasks import send_mail
         send_mail.delay(instance.pk)
