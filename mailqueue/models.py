@@ -74,6 +74,6 @@ class MailerMessage(models.Model):
 def send_post_save(sender, instance, signal, *args, **kwargs):
     if getattr(settings, 'MAILQUEUE_CELERY', defaults.MAILQUEUE_CELERY):
         from mailqueue.tasks import send_mail
-        send_mail.delay(instance)
+        send_mail.delay(instance.pk)
     else:
         instance.send()

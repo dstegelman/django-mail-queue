@@ -1,5 +1,7 @@
-from celery.task import task
+import celery
+from .models import MailerMessage
 
-@task(name="tasks.send_mail")
-def send_mail(mailer):
-    mailer.send()
+@celery.task(name="tasks.send_mail")
+def send_mail(pk):
+    message = MailerMessage.objects.get(pk=pk)
+    message.send()
