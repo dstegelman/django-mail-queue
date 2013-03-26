@@ -24,6 +24,27 @@ and wait for the next time the job is called.  Of course, the BCC address is opt
 
 
 
+Attaching Files
+------------------------
+
+File attachments can be added to the e-mail with MailerMessage's `add_attachment` method::
+
+    from django.core.files import File
+
+    ...
+
+    photo_one = File(open("Poznan_square.jpg", "r"))
+    photo_two = File(open("Poznan_Malta-lake.jpg", "r"))
+
+    new_message.add_attachment(photo_one)
+    new_message.add_attachment(photo_two)
+
+    ...
+
+    new_message.save()
+
+
+
 Sending to Multiple BCCs
 ------------------------
 
