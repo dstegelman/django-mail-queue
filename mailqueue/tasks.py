@@ -1,7 +1,7 @@
 from celery.task import task
+from .models import MailerMessage
 
-
-#Cached Services
-@task()
-def send_mail(mailer):
-    mailer.send()
+@task(name="tasks.send_mail")
+def send_mail(pk):
+    message = MailerMessage.objects.get(pk=pk)
+    message.send()

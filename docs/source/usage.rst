@@ -24,9 +24,30 @@ and wait for the next time the job is called.  Of course, the BCC address is opt
 
 
 
+Attaching Files
+------------------------
+
+File attachments can be added to the e-mail with MailerMessage's `add_attachment` method::
+
+    from mailqueue.models import MailerMessage
+    from django.core.files import File
+
+    message = MailerMessage(to_address="foo@mail.com", from_address="bar@mail.com")
+
+    photo_one = File(open("Poznan_square.jpg", "r"))
+    message.add_attachment(photo_one)
+
+    # …you can add more than one file attachment
+    photo_two = File(open("Poznan_Malta-lake.jpg", "r"))
+    message.add_attachment(photo_two)
+
+    message.save()
+
+
+
 Sending to Multiple BCCs
 ------------------------
 
 To include more than one BCC in your email, just separate the addresses with a comma::
 
-    new_message.bcc_address = "one@mail.com, two@mail.com, three@mail.com"
+    message.bcc_address = "one@mail.com, two@mail.com, three@mail.com"

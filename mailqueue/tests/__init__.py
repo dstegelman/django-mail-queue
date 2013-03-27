@@ -1,0 +1,64 @@
+import shutil
+import os.path
+from django.core import mail
+from django.core.files import File
+from django.test import TestCase
+from django.test.utils import override_settings
+from .utils import create_email
+
+@override_settings(MAILQUEUE_CELERY=False)
+class MailQueueTestCase(TestCase):
+
+    def setUp(self):
+        self.TEST_ROOT = os.path.abspath(os.path.dirname(__file__))
+
+    def _setUp_files(self):
+        self.small_file = File(open(os.path.join(self.TEST_ROOT, "attachments", "small.txt"), "r"))
+        self.large_file = File(open(os.path.join(self.TEST_ROOT, "attachments", "big.pdf"), "r"))
+
+    def tearDown(self):
+        try:
+            shutil.rmtree(os.path.join(self.TEST_ROOT, "../../mail-queue"))
+        except OSError:
+            pass
+
+    def test_email(self):
+        create_email(subject="Test email")
+        self.assertEqual(mail.outbox[0].subject, "Test email")
+
+    def test_single_bcc(self):
+        create_email(bcc_address="bcc@mail.co.uk")
+        self.assertEqual(mail.outbox[0].bcc, ["bcc@mail.co.uk"])
+
+    def test_multiple_bcc(self):
+        create_email(bcc_address="bcc_one@mail.co.uk, bcc_two@mail.co.uk")
+        self.assertEqual(mail.outbox[0].bcc, ["bcc_one@mail.co.uk", "bcc_two@mail.co.uk"])
+
+    def test_add_attachment(self):
+        self._setUp_files()
+
+        test_message = create_email(do_not_save=True)
+        test_message.add_attachment(self.small_file)
+        test_message.save()
+
+        self.assertEqual(mail.outbox[0].attachments[0][0], u"small.txt")
+        self.assertEqual(mail.outbox[0].attachments[0][1], "This is a small attachment.\n")
+
+    def test_add_large_attachment(self):
+        self._setUp_files()
+
+        test_message = create_email(do_not_save=True)
+        test_message.add_attachment(self.small_file)
+        test_message.save()
+
+        self.assertEqual(len(mail.outbox[0].attachments), 1)
+
+    def test_add_multiple_attachments(self):
+        self._setUp_files()
+
+        test_message = create_email(do_not_save=True)
+        test_message.add_attachment(self.small_file)
+        test_message.add_attachment(self.large_file)
+        test_message.save()
+
+        self.assertEqual(len(mail.outbox[0].attachments), 2)
