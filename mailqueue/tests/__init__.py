@@ -3,20 +3,24 @@ import os.path
 from django.core import mail
 from django.core.files import File
 from django.test import TestCase
-from django.test.utils import override_settings
+from django.conf import settings
 from .utils import create_email
 
-@override_settings(MAILQUEUE_CELERY=False)
 class MailQueueTestCase(TestCase):
-
     def setUp(self):
         self.TEST_ROOT = os.path.abspath(os.path.dirname(__file__))
+
+        # at the moment there are no tests for our celery tasks
+        self.MAILQUEUE_CELERY = getattr(settings, "MAILQUEUE_CELERY", False)
+        setattr(settings, "MAILQUEUE_CELERY", False)
 
     def _setUp_files(self):
         self.small_file = File(open(os.path.join(self.TEST_ROOT, "attachments", "small.txt"), "r"))
         self.large_file = File(open(os.path.join(self.TEST_ROOT, "attachments", "big.pdf"), "r"))
 
     def tearDown(self):
+        setattr(settings, "MAILQUEUE_CELERY", self.MAILQUEUE_CELERY)
+
         try:
             shutil.rmtree(os.path.join(self.TEST_ROOT, "../../mail-queue"))
         except OSError:
