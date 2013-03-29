@@ -18,6 +18,7 @@ from django.conf import settings
 
 from . import defaults
 
+
 class MailerMessageManager(models.Manager):
     def send_queued(self, limit=None):
         if limit is None:
@@ -25,6 +26,7 @@ class MailerMessageManager(models.Manager):
 
         for email in self.filter(sent=False)[:limit]:
             email.send()
+
 
 class MailerMessage(models.Model):
     subject = models.CharField(max_length=250, blank=True, null=True)
@@ -59,7 +61,18 @@ class MailerMessage(models.Model):
         self.do_not_send = True
         super(MailerMessage, self).save(*args, **kwargs)
 
-    def send(self):
+    def send_mail(self):
+        """ Public api to send mail.  Makes the determinination
+         of using celery or not and then calls the appropriate methods.
+        """
+
+        if getattr(settings, 'MAILQUEUE_CELERY', defaults.MAILQUEUE_CELERY):
+            from mailqueue import tasks
+            tasks.send_mail(self.pk)
+        else:
+            self._send()
+
+    def _send(self):
         if not self.sent:
             if getattr(settings, 'USE_TZ', False):
                 # This change breaks SQLite usage.
@@ -89,8 +102,8 @@ class MailerMessage(models.Model):
                 self.sent = True
             except Exception, e:
                 logger.error('Mail Queue Exception: {0}'.format(e))
-
             self.save()
+
 
 class Attachment(models.Model):
     file_attachment = models.FileField(upload_to='mail-queue/attachments', blank=True, null=True)
@@ -105,8 +118,4 @@ def send_post_save(sender, instance, signal, *args, **kwargs):
         instance.do_not_send = False
         return
 
-    if getattr(settings, 'MAILQUEUE_CELERY', defaults.MAILQUEUE_CELERY):
-        from mailqueue.tasks import send_mail
-        send_mail.delay(instance.pk)
-    else:
-        instance.send()
+    instance.send_mail()
