@@ -105,8 +105,11 @@ def send_post_save(sender, instance, signal, *args, **kwargs):
         instance.do_not_send = False
         return
 
-    if getattr(settings, 'MAILQUEUE_CELERY', defaults.MAILQUEUE_CELERY):
-        from mailqueue.tasks import send_mail
-        send_mail.delay(instance.pk)
-    else:
-        instance.send()
+    if not getattr(settings, 'MAILQUEUE_QUEUE_UP', defaults.MAILQUEUE_QUEUE_UP):
+        # If mail queue up is set, wait for the cron or management command
+        # to send any email.
+        if getattr(settings, 'MAILQUEUE_CELERY', defaults.MAILQUEUE_CELERY):
+            from mailqueue.tasks import send_mail
+            send_mail.delay(instance.pk)
+        else:
+            instance.send()
