@@ -65,3 +65,9 @@ Celery is disabled by default, you can turn it on the use of Celery and send ema
     MAILQUEUE_CELERY = True
 
 Instead of using the cron job the celery task worker will attempt to send email email when it's saved.  The cron job will clean up any emails that get lost.
+
+Queue Mail (Optional)
+----------
+
+You can truly queue up mail and send only with the cron job or management command by adding ``MAILQUEUE_QUEUE_UP = True`` to your settings file.  By
+default this functionality is turned off.s
