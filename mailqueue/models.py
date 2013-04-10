@@ -7,6 +7,7 @@
 #---------------------------------------------#
 import datetime
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -83,11 +84,12 @@ class MailerMessage(models.Model):
 
                 # Add any additional attachments
                 for attachment in self.attachment_set.all():
-                    msg.attach_file(attachment.file_attachment.name)
+                    msg.attach_file(os.path.join(settings.MEDIA_ROOT, attachment.file_attachment.name))
 
                 msg.send()
                 self.sent = True
             except Exception, e:
+                self.do_not_send = True
                 logger.error('Mail Queue Exception: {0}'.format(e))
 
             self.save()
