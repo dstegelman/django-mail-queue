@@ -19,6 +19,7 @@ from django.conf import settings
 
 from . import defaults
 
+
 class MailerMessageManager(models.Manager):
     def send_queued(self, limit=None):
         if limit is None:
@@ -26,6 +27,7 @@ class MailerMessageManager(models.Manager):
 
         for email in self.filter(sent=False)[:limit]:
             email.send()
+
 
 class MailerMessage(models.Model):
     subject = models.CharField(max_length=250, blank=True, null=True)
@@ -69,23 +71,22 @@ class MailerMessage(models.Model):
             else:
                 self.last_attempt = datetime.datetime.now()
 
+            subject, from_email, to = self.subject, self.from_address, self.to_address
+            text_content = self.content
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            if self.html_content:
+                html_content = self.html_content
+                msg.attach_alternative(html_content, "text/html")
+            if self.bcc_address:
+                if ',' in self.bcc_address:
+                    msg.bcc = [ email.strip() for email in self.bcc_address.split(',') ]
+                else:
+                    msg.bcc = [self.bcc_address, ]
+
+            # Add any additional attachments
+            for attachment in self.attachment_set.all():
+                msg.attach_file(os.path.join(settings.MEDIA_ROOT, attachment.file_attachment.name))
             try:
-                subject, from_email, to = self.subject, self.from_address, self.to_address
-                text_content = self.content
-                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-                if self.html_content:
-                    html_content = self.html_content
-                    msg.attach_alternative(html_content, "text/html")
-                if self.bcc_address:
-                    if ',' in self.bcc_address:
-                        msg.bcc = [ email.strip() for email in self.bcc_address.split(',') ]
-                    else:
-                        msg.bcc = [self.bcc_address, ]
-
-                # Add any additional attachments
-                for attachment in self.attachment_set.all():
-                    msg.attach_file(os.path.join(settings.MEDIA_ROOT, attachment.file_attachment.name))
-
                 msg.send()
                 self.sent = True
             except Exception, e:
@@ -93,6 +94,7 @@ class MailerMessage(models.Model):
                 logger.error('Mail Queue Exception: {0}'.format(e))
 
             self.save()
+
 
 class Attachment(models.Model):
     file_attachment = models.FileField(upload_to='mail-queue/attachments', blank=True, null=True)
