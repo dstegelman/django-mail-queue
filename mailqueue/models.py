@@ -30,13 +30,13 @@ class MailerMessageManager(models.Manager):
 
 
 class MailerMessage(models.Model):
-    subject = models.CharField(max_length=250, blank=True, null=True)
+    subject = models.CharField(max_length=250, blank=True)
     to_address = models.EmailField(max_length=250)
-    bcc_address = models.EmailField(max_length=250, blank=True, null=True)
+    bcc_address = models.EmailField(max_length=250, blank=True)
     from_address = models.EmailField(max_length=250)
-    content = models.TextField(blank=True, null=True)
-    html_content = models.TextField(blank=True, null=True)
-    app = models.CharField(max_length=250, blank=True, null=True)
+    content = models.TextField(blank=True)
+    html_content = models.TextField(blank=True)
+    app = models.CharField(max_length=250, blank=True)
     sent = models.BooleanField(default=False, editable=False)
     last_attempt = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True, editable=False)
 
