@@ -5,6 +5,7 @@
 # Should be executed with a cron job.
 #
 #---------------------------------------------#
+from django.utils.encoding import python_2_unicode_compatible
 import datetime
 import logging
 import os
@@ -29,6 +30,7 @@ class MailerMessageManager(models.Manager):
             email.send()
 
 
+@python_2_unicode_compatible
 class MailerMessage(models.Model):
     subject = models.CharField(max_length=250, blank=True)
     to_address = models.EmailField(max_length=250)
@@ -42,7 +44,7 @@ class MailerMessage(models.Model):
 
     objects = MailerMessageManager()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.subject
 
     def add_attachment(self, attachment):
@@ -89,18 +91,19 @@ class MailerMessage(models.Model):
             try:
                 msg.send()
                 self.sent = True
-            except Exception, e:
+            except Exception as e:
                 self.do_not_send = True
                 logger.error('Mail Queue Exception: {0}'.format(e))
 
             self.save()
 
 
+@python_2_unicode_compatible
 class Attachment(models.Model):
     file_attachment = models.FileField(upload_to='mail-queue/attachments', blank=True, null=True)
     email = models.ForeignKey(MailerMessage, blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.file_attachment.name
 
 @receiver(post_save, sender=MailerMessage)
