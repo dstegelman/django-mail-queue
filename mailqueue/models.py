@@ -7,6 +7,7 @@
 #---------------------------------------------#
 import datetime
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -18,6 +19,7 @@ from django.conf import settings
 
 from . import defaults
 
+
 class MailerMessageManager(models.Manager):
     def send_queued(self, limit=None):
         if limit is None:
@@ -26,14 +28,15 @@ class MailerMessageManager(models.Manager):
         for email in self.filter(sent=False)[:limit]:
             email.send()
 
+
 class MailerMessage(models.Model):
-    subject = models.CharField(max_length=250, blank=True, null=True)
+    subject = models.CharField(max_length=250, blank=True)
     to_address = models.EmailField(max_length=250)
-    bcc_address = models.EmailField(max_length=250, blank=True, null=True)
+    bcc_address = models.EmailField(max_length=250, blank=True)
     from_address = models.EmailField(max_length=250)
-    content = models.TextField(blank=True, null=True)
-    html_content = models.TextField(blank=True, null=True)
-    app = models.CharField(max_length=250, blank=True, null=True)
+    content = models.TextField(blank=True)
+    html_content = models.TextField(blank=True)
+    app = models.CharField(max_length=250, blank=True)
     sent = models.BooleanField(default=False, editable=False)
     last_attempt = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True, editable=False)
 
@@ -59,7 +62,18 @@ class MailerMessage(models.Model):
         self.do_not_send = True
         super(MailerMessage, self).save(*args, **kwargs)
 
-    def send(self):
+    def send_mail(self):
+        """ Public api to send mail.  Makes the determinination
+         of using celery or not and then calls the appropriate methods.
+        """
+
+        if getattr(settings, 'MAILQUEUE_CELERY', defaults.MAILQUEUE_CELERY):
+            from mailqueue import tasks
+            tasks.send_mail(self.pk)
+        else:
+            self._send()
+
+    def _send(self):
         if not self.sent:
             if getattr(settings, 'USE_TZ', False):
                 # This change breaks SQLite usage.
@@ -68,29 +82,29 @@ class MailerMessage(models.Model):
             else:
                 self.last_attempt = datetime.datetime.now()
 
+            subject, from_email, to = self.subject, self.from_address, self.to_address
+            text_content = self.content
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            if self.html_content:
+                html_content = self.html_content
+                msg.attach_alternative(html_content, "text/html")
+            if self.bcc_address:
+                if ',' in self.bcc_address:
+                    msg.bcc = [ email.strip() for email in self.bcc_address.split(',') ]
+                else:
+                    msg.bcc = [self.bcc_address, ]
+
+            # Add any additional attachments
+            for attachment in self.attachment_set.all():
+                msg.attach_file(os.path.join(settings.MEDIA_ROOT, attachment.file_attachment.name))
             try:
-                subject, from_email, to = self.subject, self.from_address, self.to_address
-                text_content = self.content
-                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-                if self.html_content:
-                    html_content = self.html_content
-                    msg.attach_alternative(html_content, "text/html")
-                if self.bcc_address:
-                    if ',' in self.bcc_address:
-                        msg.bcc = [ email.strip() for email in self.bcc_address.split(',') ]
-                    else:
-                        msg.bcc = [self.bcc_address, ]
-
-                # Add any additional attachments
-                for attachment in self.attachment_set.all():
-                    msg.attach_file(attachment.file_attachment.name)
-
                 msg.send()
                 self.sent = True
             except Exception, e:
+                self.do_not_send = True
                 logger.error('Mail Queue Exception: {0}'.format(e))
-
             self.save()
+
 
 class Attachment(models.Model):
     file_attachment = models.FileField(upload_to='mail-queue/attachments', blank=True, null=True)
@@ -108,8 +122,4 @@ def send_post_save(sender, instance, signal, *args, **kwargs):
     if not getattr(settings, 'MAILQUEUE_QUEUE_UP', defaults.MAILQUEUE_QUEUE_UP):
         # If mail queue up is set, wait for the cron or management command
         # to send any email.
-        if getattr(settings, 'MAILQUEUE_CELERY', defaults.MAILQUEUE_CELERY):
-            from mailqueue.tasks import send_mail
-            send_mail.delay(instance.pk)
-        else:
-            instance.send()
+        instance.send_mail()
