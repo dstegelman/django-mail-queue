@@ -16,7 +16,7 @@ class MailQueueTestCase(TestCase):
 
     def _setUp_files(self):
         self.small_file = File(open(os.path.join(self.TEST_ROOT, "attachments", "small.txt"), "r"))
-        self.large_file = File(open(os.path.join(self.TEST_ROOT, "attachments", "big.pdf"), "r"))
+        self.large_file = File(open(os.path.join(self.TEST_ROOT, "attachments", "big.pdf"), "rb"))
 
     def tearDown(self):
         setattr(settings, "MAILQUEUE_CELERY", self.MAILQUEUE_CELERY)
@@ -45,8 +45,8 @@ class MailQueueTestCase(TestCase):
         test_message.add_attachment(self.small_file)
         test_message.save()
 
-        self.assertEqual(mail.outbox[0].attachments[0][0], u"small.txt")
-        self.assertEqual(mail.outbox[0].attachments[0][1], "This is a small attachment.\n")
+        self.assertEqual(mail.outbox[0].attachments[0][0], "small.txt")
+        self.assertEqual(mail.outbox[0].attachments[0][1], b"This is a small attachment.\n")
 
     def test_add_large_attachment(self):
         self._setUp_files()
