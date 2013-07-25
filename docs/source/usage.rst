@@ -51,3 +51,10 @@ Sending to Multiple BCCs
 To include more than one BCC in your email, just separate the addresses with a comma::
 
     message.bcc_address = "one@mail.com, two@mail.com, three@mail.com"
+
+Using the Management Command
+----------------------------
+
+You can use the management command to send email::
+
+    python manage.py send_queued_messages --limit=20

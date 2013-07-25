@@ -66,3 +66,9 @@ class MailQueueTestCase(TestCase):
         test_message.save()
 
         self.assertEqual(len(mail.outbox[0].attachments), 2)
+
+    def test_mailqueue_up(self):
+        setattr(settings, "MAILQUEUE_QUEUE_UP", True)
+        create_email(subject='Test Email')
+        self.assertEqual(mail.outbox, [])
+        setattr(settings, "MAILQUEUE_QUEUE_UP", False)

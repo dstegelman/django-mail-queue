@@ -1,16 +1,19 @@
 Quick Start Guide
 =================
 
+As of 2.0 Django Mail Queue is now Python 3 compatable!
+
 
 Requirements
 ------------
 
 Django Mail Queue requires::
 
+    python 2.7 or greater
     south
-    django 1.3 or greater
+    django 1.4 or greater
 
-Django Mail Queue is tested against Python 2.6, 2.7 and Django 1.3, 1.4, and 1.5.
+Django Mail Queue is tested against Python 2.7, 3.3 and Django 1.4, and 1.5.
 
 Installation
 ------------
@@ -70,4 +73,4 @@ Queue Mail (Optional)
 ----------
 
 You can truly queue up mail and send only with the cron job or management command by adding ``MAILQUEUE_QUEUE_UP = True`` to your settings file.  By
-default this functionality is turned off.s
+default this functionality is turned off.
