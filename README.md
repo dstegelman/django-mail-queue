@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/dstegelman/django-mail-queue.png?branch=master)](https://travis-ci.org/dstegelman/django-mail-queue)
+[![Pypi Version](https://pypip.in/v/django-mail-queue/badge.png)](https://crate.io/packages/django-mail-queue)
+
 
 Django Mail Queue
 =================
