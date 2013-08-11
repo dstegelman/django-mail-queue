@@ -1,12 +1,12 @@
 from django.contrib import admin
-from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
-from mailqueue.models import MailerMessage, Attachment
-from mailqueue import defaults
+from .models import MailerMessage, Attachment
 
 
 class AttachmentInline(admin.TabularInline):
     model = Attachment
+    extra = 0
 
 
 class MailerAdmin(admin.ModelAdmin):
@@ -18,11 +18,8 @@ class MailerAdmin(admin.ModelAdmin):
     def send_failed(self, request, queryset):
         emails = queryset.filter(sent=False)
         for email in emails:
-            if getattr(settings, 'MAILQUEUE_CELERY', defaults.MAILQUEUE_CELERY):
-                from mailqueue.tasks import send_mail
-                send_mail.delay(email)
-            else:
-                email.send()
-        self.message_user(request, "Emails queued.")
+            email.send_mail()
+        self.message_user(request, _("Emails queued."))
+    send_failed.short_description = _("Send failed")
 
 admin.site.register(MailerMessage, MailerAdmin)
