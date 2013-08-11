@@ -6,6 +6,7 @@
 #
 #---------------------------------------------#
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy as _
 import datetime
 import logging
 import os
@@ -32,17 +33,21 @@ class MailerMessageManager(models.Manager):
 
 @python_2_unicode_compatible
 class MailerMessage(models.Model):
-    subject = models.CharField(max_length=250, blank=True)
-    to_address = models.EmailField(max_length=250)
-    bcc_address = models.EmailField(max_length=250, blank=True)
-    from_address = models.EmailField(max_length=250)
-    content = models.TextField(blank=True)
-    html_content = models.TextField(blank=True)
-    app = models.CharField(max_length=250, blank=True)
-    sent = models.BooleanField(default=False, editable=False)
-    last_attempt = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, null=True, editable=False)
+    subject = models.CharField(_('Subject'), max_length=250, blank=True)
+    to_address = models.EmailField(_('To'), max_length=250)
+    bcc_address = models.EmailField(_('BCC'), max_length=250, blank=True)
+    from_address = models.EmailField(_('From'), max_length=250)
+    content = models.TextField(_('Content'), blank=True)
+    html_content = models.TextField(_('HTML Content'), blank=True)
+    app = models.CharField(_('App'), max_length=250, blank=True)
+    sent = models.BooleanField(_('Sent'), default=False, editable=False)
+    last_attempt = models.DateTimeField(_('Last attempt'), auto_now=False, auto_now_add=False, blank=True, null=True, editable=False)
 
     objects = MailerMessageManager()
+
+    class Meta:
+        verbose_name = _('Message')
+        verbose_name_plural = _('Messages')
 
     def __str__(self):
         return self.subject
@@ -112,6 +117,10 @@ class MailerMessage(models.Model):
 class Attachment(models.Model):
     file_attachment = models.FileField(upload_to='mail-queue/attachments', blank=True, null=True)
     email = models.ForeignKey(MailerMessage, blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Attachment')
+        verbose_name_plural = _('Attachments')
 
     def __str__(self):
         return self.file_attachment.name

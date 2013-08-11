@@ -1,0 +1,78 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-08-11 19:08+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: admin.py:23
+msgid "Emails queued."
+msgstr "e-Mails eingereiht."
+
+#: admin.py:24
+msgid "Send failed"
+msgstr "Senden fehlgeschlagen"
+
+#: models.py:36
+msgid "Subject"
+msgstr "Betreff"
+
+#: models.py:37
+msgid "To"
+msgstr "An"
+
+#: models.py:38
+msgid "BCC"
+msgstr "BCC"
+
+#: models.py:39
+msgid "From"
+msgstr "Von"
+
+#: models.py:40
+msgid "Content"
+msgstr "Inhalt"
+
+#: models.py:41
+msgid "HTML Content"
+msgstr "HTML Inhalt"
+
+#: models.py:42
+msgid "App"
+msgstr "App"
+
+#: models.py:43
+msgid "Sent"
+msgstr "Gesendet"
+
+#: models.py:44
+msgid "Last attempt"
+msgstr "Letzter Versuch"
+
+#: models.py:49
+msgid "Message"
+msgstr "Nachricht"
+
+#: models.py:50
+msgid "Messages"
+msgstr "Nachrichten"
+
+#: models.py:122
+msgid "Attachment"
+msgstr "Anhang"
+
+#: models.py:123
+msgid "Attachments"
+msgstr "Anhänge"
