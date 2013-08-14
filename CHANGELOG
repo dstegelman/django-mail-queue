@@ -14,3 +14,5 @@ Changes before 1.6 are not listed here.  Refer to the commit log.
 - Python 3 support
 - MailQueue UP.  Supporting true queuing by allowing email to be added but then not sent until the management
 command is called in batches.
+- MailQueue clear sent messages.
+- German translations
