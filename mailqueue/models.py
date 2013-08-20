@@ -28,7 +28,7 @@ class MailerMessageManager(models.Manager):
             limit = getattr(settings, 'MAILQUEUE_LIMIT', defaults.MAILQUEUE_LIMIT)
 
         for email in self.filter(sent=False)[:limit]:
-            email.send()
+            email.send_mail()
 
     def clear_sent_messages(self, offset=None):
         """ Deletes sent MailerMessage records """
