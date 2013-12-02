@@ -18,8 +18,11 @@ from django.core.mail import EmailMultiAlternatives
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
 from . import defaults
+
+fs = FileSystemStorage(location=settings.MEDIA_ROOT)
 
 
 class MailerMessageManager(models.Manager):
@@ -126,7 +129,7 @@ class MailerMessage(models.Model):
 
 @python_2_unicode_compatible
 class Attachment(models.Model):
-    file_attachment = models.FileField(upload_to='mail-queue/attachments', blank=True, null=True)
+    file_attachment = models.FileField(storage=fs, upload_to='mail-queue/attachments', blank=True, null=True)
     email = models.ForeignKey(MailerMessage, blank=True, null=True)
 
     class Meta:
