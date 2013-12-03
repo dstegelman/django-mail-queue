@@ -18,11 +18,14 @@ from django.core.mail import EmailMultiAlternatives
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
-from django.core.files.storage import FileSystemStorage
 
 from . import defaults
 
-fs = FileSystemStorage(location=settings.MEDIA_ROOT)
+if settings.USE_FILESYSTEMSTORAGE:
+    from django.core.files.storage import FileSystemStorage
+    fs = FileSystemStorage(location=settings.MEDIA_ROOT)
+else:
+    fs = settings.DEFUALT_FILE_STORAGE
 
 
 class MailerMessageManager(models.Manager):
