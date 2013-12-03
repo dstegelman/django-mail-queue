@@ -21,7 +21,7 @@ from django.conf import settings
 
 from . import defaults
 
-if settings.USE_FILESYSTEMSTORAGE:
+if getattr(settings, 'USE_FILESYSTEMSTORAGE', False):
     from django.core.files.storage import FileSystemStorage
     fs = FileSystemStorage(location=settings.MEDIA_ROOT)
 else:
