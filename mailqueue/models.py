@@ -25,7 +25,7 @@ if getattr(settings, 'USE_FILESYSTEMSTORAGE', False):
     from django.core.files.storage import FileSystemStorage
     fs = FileSystemStorage(location=settings.MEDIA_ROOT)
 else:
-    fs = settings.DEFUALT_FILE_STORAGE
+    fs = settings.DEFAULT_FILE_STORAGE
 
 
 class MailerMessageManager(models.Manager):
