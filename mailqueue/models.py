@@ -20,12 +20,7 @@ from django.dispatch import receiver
 from django.conf import settings
 
 from . import defaults
-
-if getattr(settings, 'USE_FILESYSTEMSTORAGE', False):
-    from django.core.files.storage import FileSystemStorage
-    fs = FileSystemStorage(location=settings.MEDIA_ROOT)
-else:
-    fs = settings.DEFAULT_FILE_STORAGE
+from .utils import get_storage
 
 
 class MailerMessageManager(models.Manager):
@@ -132,7 +127,7 @@ class MailerMessage(models.Model):
 
 @python_2_unicode_compatible
 class Attachment(models.Model):
-    file_attachment = models.FileField(storage=fs, upload_to='mail-queue/attachments', blank=True, null=True)
+    file_attachment = models.FileField(storage=get_storage(), upload_to='mail-queue/attachments', blank=True, null=True)
     email = models.ForeignKey(MailerMessage, blank=True, null=True)
 
     class Meta:
