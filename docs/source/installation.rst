@@ -74,3 +74,14 @@ Queue Mail (Optional)
 
 You can truly queue up mail and send only with the cron job or management command by adding ``MAILQUEUE_QUEUE_UP = True`` to your settings file.  By
 default this functionality is turned off.
+
+Misc Settings
+-------------
+
+You can force mail queue to use default file system storage with MEDIA_ROOT as the storage folder.  You may want to do this
+because by default mail queue will use your default file storage, and attachments are known to not work against various
+storages such as S3 Boto.
+
+To force Django's File System storage::
+
+    MAILQUEUE_STORAGE = True
