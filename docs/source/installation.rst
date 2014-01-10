@@ -27,7 +27,7 @@ Go to https://github.com/dstegelman/django-mail-queue if you need to download a 
 Setup
 -----
 
-Open ``settings.py`` and add ``api_docs`` to your ``INSTALLED_APPS``::
+Open ``settings.py`` and add ``mailqueue`` to your ``INSTALLED_APPS``::
 
     INSTALLED_APPS = (
         'mailqueue',
