@@ -13,6 +13,7 @@ import os
 
 logger = logging.getLogger(__name__)
 
+from django.utils.timezone import utc
 from django.db import models
 from django.core.mail import EmailMultiAlternatives
 from django.db.models.signals import post_save
@@ -95,8 +96,6 @@ class MailerMessage(models.Model):
     def _send(self):
         if not self.sent:
             if getattr(settings, 'USE_TZ', False):
-                # This change breaks SQLite usage.
-                from django.utils.timezone import utc
                 self.last_attempt = datetime.datetime.utcnow().replace(tzinfo=utc)
             else:
                 self.last_attempt = datetime.datetime.now()
