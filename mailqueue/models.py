@@ -13,7 +13,7 @@ import os
 
 logger = logging.getLogger(__name__)
 
-from django.utils.timezone import utc
+from django.utils import timezone
 from django.db import models
 from django.core.mail import EmailMultiAlternatives
 from django.db.models.signals import post_save
@@ -40,7 +40,7 @@ class MailerMessageManager(models.Manager):
         if type(offset) is int:
             offset = datetime.timedelta(hours=offset)
 
-        delete_before = datetime.datetime.utcnow().replace(tzinfo=utc) - offset
+        delete_before = timezone.now() - offset
         self.filter(sent=True, last_attempt__lte=delete_before).delete()
 
 
@@ -96,9 +96,9 @@ class MailerMessage(models.Model):
     def _send(self):
         if not self.sent:
             if getattr(settings, 'USE_TZ', False):
-                self.last_attempt = datetime.datetime.utcnow().replace(tzinfo=utc)
+                self.last_attempt = timezone.now()
             else:
-                self.last_attempt = datetime.datetime.now()
+                self.last_attempt = timezone.now()
 
             subject, from_email = self.subject, self.from_address
             text_content = self.content
