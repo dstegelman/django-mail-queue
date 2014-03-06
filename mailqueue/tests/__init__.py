@@ -1,9 +1,12 @@
 import shutil
 import os.path
+
 from django.core import mail
 from django.core.files import File
 from django.test import TestCase
 from django.conf import settings
+
+from ..models import MailerMessage
 from .utils import create_email
 
 class MailQueueTestCase(TestCase):
@@ -26,9 +29,41 @@ class MailQueueTestCase(TestCase):
         except OSError:
             pass
 
+    def test_clear_messages(self):
+        t1 = create_email(subject='old_mail')
+        t2 = create_email(subject='new_mail')
+
+        self.assertEqual(MailerMessage.objects.count(), 2)
+
+        MailerMessage.objects.clear_sent_messages(offset=24)
+        self.assertEqual(MailerMessage.objects.count(), 2)
+
+        MailerMessage.objects.clear_sent_messages()
+        self.assertEqual(MailerMessage.objects.count(), 0)
+
+
     def test_email(self):
         create_email(subject="Test email")
         self.assertEqual(mail.outbox[0].subject, "Test email")
+
+    def test_ugly_addresses(self):
+        addresses = '''
+        Jane@mail.co.uk,
+        john@mail.co.uk, ,  julie@mail.co.uk,
+        '''
+        bcc_addresses = '''
+          , Lou@mail.co.uk,
+        lisa@mail.co.uk, ,  lori@mail.co.uk,
+        ,
+        '''
+        create_email(to_address=addresses, bcc_address=bcc_addresses)
+        self.assertEqual(mail.outbox[0].to, ["Jane@mail.co.uk", "john@mail.co.uk", "julie@mail.co.uk"])
+        self.assertEqual(mail.outbox[0].bcc, ["Lou@mail.co.uk", "lisa@mail.co.uk", "lori@mail.co.uk"])
+
+    def test_multiple_to(self):
+        addresses = 'Jane@mail.co.uk,john@mail.co.uk,julie@mail.co.uk'
+        create_email(to_address=addresses)
+        self.assertEqual(mail.outbox[0].to, ["Jane@mail.co.uk", "john@mail.co.uk", "julie@mail.co.uk"])
 
     def test_single_bcc(self):
         create_email(bcc_address="bcc@mail.co.uk")

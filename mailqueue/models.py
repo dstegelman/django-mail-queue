@@ -95,10 +95,7 @@ class MailerMessage(models.Model):
 
     def _send(self):
         if not self.sent:
-            if getattr(settings, 'USE_TZ', False):
-                self.last_attempt = timezone.now()
-            else:
-                self.last_attempt = timezone.now()
+            self.last_attempt = timezone.now()
 
             subject, from_email = self.subject, self.from_address
             text_content = self.content
@@ -107,8 +104,8 @@ class MailerMessage(models.Model):
                 html_content = self.html_content
                 msg.attach_alternative(html_content, "text/html")
 
-            msg.to = [ email.strip() for email in self.to_address.split(',') ]
-            msg.bcc = [ email.strip() for email in self.bcc_address.split(',') ]
+            msg.to = [email.strip() for email in self.to_address.split(',') if email.strip()]
+            msg.bcc = [email.strip() for email in self.bcc_address.split(',') if email.strip()]
 
             # Add any additional attachments
             for attachment in self.attachment_set.all():
