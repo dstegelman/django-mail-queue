@@ -16,3 +16,16 @@ Changes before 1.6 are not listed here.  Refer to the commit log.
 command is called in batches.
 - MailQueue clear sent messages.
 - German translations
+
+2.1.1
+-----
+
+- Add .retry() for failed attempts at sending email.
+
+2.1.2
+-----
+
+- Allow many recipients in to field
+- Allow recipients to have unrestricted length.
+- Better handling of ugly email address handling.
+- Bug fix `clear_sent_messages`
