@@ -45,12 +45,17 @@ File attachments can be added to the e-mail with MailerMessage's `add_attachment
 
 
 
-Sending to Multiple BCCs
-------------------------
+Sending to Multiple Recipients
+------------------------------
 
 To include more than one BCC in your email, just separate the addresses with a comma::
 
     message.bcc_address = "one@mail.com, two@mail.com, three@mail.com"
+
+As of version 2.2.0 multiple recipients may be included in the `to_address` field as well::
+
+    message.bcc_address = "one@mail.com, two@mail.com, three@mail.com"
+
 
 Using the Management Command
 ----------------------------
