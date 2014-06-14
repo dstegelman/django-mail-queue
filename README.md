@@ -12,6 +12,9 @@ Installation
 ------------
 
     pip install django-mail-queue
+
+We officially support the 3 latest versions of Django as best as possible.  Currently this means
+that we test and support Django 1.4, 1.5, and 1.6 on Python 2.7, 3.3, and 3.4
     
 Read me some docs
 -----------------
