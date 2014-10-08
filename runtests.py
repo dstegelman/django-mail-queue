@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 
-__author__ = 'derek'
 import os, sys
 from django.conf import settings
 import django
-django.setup()
 
 DIRNAME = os.path.dirname(__file__)
 
@@ -40,7 +38,11 @@ else:
                        USE_TZ=True)
 
 
-
+try:
+    # Django 1.7 needs this, but other versions dont.
+    django.setup()
+except AttributeError:
+    pass
 
 from django.test.simple import DjangoTestSuiteRunner
 test_runner = DjangoTestSuiteRunner(verbosity=1)
