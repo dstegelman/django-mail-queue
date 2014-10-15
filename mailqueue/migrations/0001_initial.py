@@ -1,43 +1,51 @@
-# encoding: utf-8
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-class Migration(SchemaMigration):
-
-    def forwards(self, orm):
-        
-        # Adding model 'MailerMessage'
-        db.create_table('mailqueue_mailermessage', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('subject', self.gf('django.db.models.fields.CharField')(max_length=250, null=True, blank=True)),
-            ('to_address', self.gf('django.db.models.fields.EmailField')(max_length=250)),
-            ('from_address', self.gf('django.db.models.fields.EmailField')(max_length=250)),
-            ('content', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('app', self.gf('django.db.models.fields.CharField')(max_length=250, null=True, blank=True)),
-            ('sent', self.gf('django.db.models.fields.BooleanField')(default=False)),
-        ))
-        db.send_create_signal('mailqueue', ['MailerMessage'])
+from django.db import models, migrations
 
 
-    def backwards(self, orm):
-        
-        # Deleting model 'MailerMessage'
-        db.delete_table('mailqueue_mailermessage')
+class Migration(migrations.Migration):
 
+    dependencies = [
+    ]
 
-    models = {
-        'mailqueue.mailermessage': {
-            'Meta': {'object_name': 'MailerMessage'},
-            'app': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
-            'content': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'from_address': ('django.db.models.fields.EmailField', [], {'max_length': '250'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'sent': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'subject': ('django.db.models.fields.CharField', [], {'max_length': '250', 'null': 'True', 'blank': 'True'}),
-            'to_address': ('django.db.models.fields.EmailField', [], {'max_length': '250'})
-        }
-    }
-
-    complete_apps = ['mailqueue']
+    operations = [
+        migrations.CreateModel(
+            name='Attachment',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('file_attachment', models.FileField(null=True, upload_to=b'mail-queue/attachments', blank=True)),
+            ],
+            options={
+                'verbose_name': 'Attachment',
+                'verbose_name_plural': 'Attachments',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='MailerMessage',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('subject', models.CharField(max_length=250, verbose_name='Subject', blank=True)),
+                ('to_address', models.TextField(verbose_name='To')),
+                ('bcc_address', models.TextField(verbose_name='BCC', blank=True)),
+                ('from_address', models.EmailField(max_length=250, verbose_name='From')),
+                ('content', models.TextField(verbose_name='Content', blank=True)),
+                ('html_content', models.TextField(verbose_name='HTML Content', blank=True)),
+                ('app', models.CharField(max_length=250, verbose_name='App', blank=True)),
+                ('sent', models.BooleanField(default=False, verbose_name='Sent', editable=False)),
+                ('last_attempt', models.DateTimeField(verbose_name='Last attempt', null=True, editable=False, blank=True)),
+            ],
+            options={
+                'verbose_name': 'Message',
+                'verbose_name_plural': 'Messages',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='attachment',
+            name='email',
+            field=models.ForeignKey(blank=True, to='mailqueue.MailerMessage', null=True),
+            preserve_default=True,
+        ),
+    ]
