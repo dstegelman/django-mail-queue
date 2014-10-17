@@ -1,10 +1,5 @@
 Changes before 1.6 are not listed here.  Refer to the commit log.
 
-2.2
----
-
-- Django 1.7 Support
-
 
 1.6
 ---
@@ -34,3 +29,10 @@ command is called in batches.
 - Allow recipients to have unrestricted length.
 - Better handling of ugly email address handling.
 - Bug fix `clear_sent_messages`
+
+
+2.2
+---
+
+- Django 1.7 Support
+
