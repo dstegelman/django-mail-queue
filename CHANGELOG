@@ -29,3 +29,12 @@ command is called in batches.
 - Allow recipients to have unrestricted length.
 - Better handling of ugly email address handling.
 - Bug fix `clear_sent_messages`
+
+
+2.2.0
+-----
+
+- Django 1.7 Support
+- Python 3 support for Django 1.7 tempoarily susupended.  Please use 2.1.2
+- Wheel support
+- Retired South migrations to mailqueue/south_migrations
