@@ -38,3 +38,4 @@ command is called in batches.
 - Python 3 support for Django 1.7 tempoarily susupended.  Please use 2.1.2
 - Wheel support
 - Retired South migrations to mailqueue/south_migrations
+
