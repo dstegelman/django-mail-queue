@@ -11,9 +11,9 @@ Django Mail Queue requires::
 
     python 2.7 or greater
     south #If using Django < 1.7
-    django 1.4.2 or greater
+    django 1.5 or greater
 
-Django Mail Queue is tested against Python 2.7, 3.3 and Django 1.4.2, 1.5, 1.6, and 1.7.
+Django Mail Queue is tested against Python 2.7, 3.3 and Django 1.5, 1.6, 1.7 and 1.8.
 
 Installation
 ------------
