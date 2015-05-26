@@ -10,8 +10,8 @@ class AttachmentInline(admin.TabularInline):
 
 
 class MailerAdmin(admin.ModelAdmin):
-    list_display = ('subject', 'to_address', 'app', 'sent', 'last_attempt')
-    search_fields = ['to_address', 'subject', 'app', 'bcc_address']
+    list_display = ('subject', 'to_address', 'app', 'sent', 'last_attempt', 'reply_to')
+    search_fields = ['to_address', 'subject', 'app', 'bcc_address', 'reply_to']
     actions = ['send_failed']
     inlines = [AttachmentInline]
 
