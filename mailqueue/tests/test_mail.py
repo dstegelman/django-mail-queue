@@ -4,9 +4,6 @@ from .utils import create_email
 
 
 class MailerMessageTestCase(TestCase):
-    
-    def setUp(self):
-        pass
 
     def test_send_mail_reply_to(self):
         """Testing creating a MailerMessage and send mail"""
