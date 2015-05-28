@@ -100,8 +100,12 @@ class MailerMessage(models.Model):
 
             subject, from_email = self.subject, self.from_address
             text_content = self.content
-            reply_to = self.reply_to
-            msg = EmailMultiAlternatives(subject, text_content, from_email, headers={"reply-to": reply_to})
+            
+            msg = EmailMultiAlternatives(subject, text_content, from_email)
+            
+            if self.reply_to:
+                msg.extra_headers.update({"reply-to": self.reply_to})
+
             if self.html_content:
                 html_content = self.html_content
                 msg.attach_alternative(html_content, "text/html")
