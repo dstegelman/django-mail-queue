@@ -39,3 +39,13 @@ command is called in batches.
 - Wheel support
 - Retired South migrations to mailqueue/south_migrations
 
+2.2.1
+-----
+
+- Classifiers
+- Support for 1.8 in tets
+
+2.2.2
+-----
+
+- Added feature of set reply-to on the message
