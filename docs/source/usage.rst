@@ -23,7 +23,6 @@ When save is called, Django will immediately try to send the email.  Should it f
 and wait for the next time the job is called.  Of course, the BCC address is optional, as well as html content.
 
 
-
 Attaching Files
 ------------------------
 
@@ -43,6 +42,16 @@ File attachments can be added to the e-mail with MailerMessage's `add_attachment
 
     message.save()
 
+
+Adding a Reply To header
+------------------------
+
+You can add a reply to header to your emails be setting::
+
+    from mailqueue.models import MailerMessage
+
+    new_message = MailerMessage()
+    new_message.reply_to = 'reply@myawesomeaddress.com'
 
 
 Sending to Multiple Recipients
