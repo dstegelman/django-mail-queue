@@ -13,6 +13,7 @@ env:
 
 # command to install dependencies
 install:
+  - pip install celery>=2.5.2
   - pip install $DJANGO_VERSION
 
 # command to run tests
