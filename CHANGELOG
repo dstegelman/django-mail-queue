@@ -49,3 +49,9 @@ command is called in batches.
 -----
 
 - Added feature of set reply-to on the message
+
+2.3.0
+-----
+
+- Django 1.9 Support
+- Remove support for < django 1.8
