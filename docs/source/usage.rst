@@ -5,7 +5,7 @@ Usage
 To Send an Email
 ----------------
 
-Create a new MailerMesage() object::
+Create a new MailerMessage() object::
 
     from mailqueue.models import MailerMessage
 
