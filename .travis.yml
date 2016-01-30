@@ -13,13 +13,14 @@ env:
 
 # command to install dependencies
 install:
-  - pip install celery>=2.5.2
+  - pip install celery>=2.5.
+  - pip install -r requirements.txt
   - pip install $DJANGO_VERSION
 
 # command to run tests
 
 script:
-  - python runtests.py
+  - py.test
 
 matrix:
   exclude:
