@@ -1,5 +1,6 @@
 import shutil
 import os.path
+import pytest
 
 from django.core import mail
 from django.core.files import File
@@ -30,9 +31,10 @@ class MailQueueTestCase(TestCase):
         except OSError:
             pass
 
+    @pytest.mark.django_db
     def test_clear_messages(self):
-        t1 = create_email(subject='old_mail')
-        t2 = create_email(subject='new_mail')
+        create_email(subject='old_mail')
+        create_email(subject='new_mail')
 
         self.assertEqual(MailerMessage.objects.count(), 2)
 
@@ -42,10 +44,12 @@ class MailQueueTestCase(TestCase):
         MailerMessage.objects.clear_sent_messages()
         self.assertEqual(MailerMessage.objects.count(), 0)
 
+    @pytest.mark.django_db
     def test_email(self):
         create_email(subject="Test email")
         self.assertEqual(mail.outbox[0].subject, "Test email")
 
+    @pytest.mark.django_db
     def test_ugly_addresses(self):
         addresses = '''
         Jane@mail.co.uk,
@@ -62,20 +66,24 @@ class MailQueueTestCase(TestCase):
         self.assertEqual(mail.outbox[0].bcc, ["Lou@mail.co.uk", "lisa@mail.co.uk",
                                               "lori@mail.co.uk"])
 
+    @pytest.mark.django_db
     def test_multiple_to(self):
         addresses = 'Jane@mail.co.uk,john@mail.co.uk,julie@mail.co.uk'
         create_email(to_address=addresses)
         self.assertEqual(mail.outbox[0].to, ["Jane@mail.co.uk", "john@mail.co.uk",
                                              "julie@mail.co.uk"])
 
+    @pytest.mark.django_db
     def test_single_bcc(self):
         create_email(bcc_address="bcc@mail.co.uk")
         self.assertEqual(mail.outbox[0].bcc, ["bcc@mail.co.uk"])
 
+    @pytest.mark.django_db
     def test_multiple_bcc(self):
         create_email(bcc_address="bcc_one@mail.co.uk, bcc_two@mail.co.uk")
         self.assertEqual(mail.outbox[0].bcc, ["bcc_one@mail.co.uk", "bcc_two@mail.co.uk"])
 
+    @pytest.mark.django_db
     def test_add_attachment(self):
         self._setUp_files()
 
@@ -86,6 +94,7 @@ class MailQueueTestCase(TestCase):
         self.assertEqual(mail.outbox[0].attachments[0][0], "small.txt")
         self.assertEqual(mail.outbox[0].attachments[0][1], b"This is a small attachment.\n")
 
+    @pytest.mark.django_db
     def test_add_large_attachment(self):
         self._setUp_files()
 
@@ -95,6 +104,7 @@ class MailQueueTestCase(TestCase):
 
         self.assertEqual(len(mail.outbox[0].attachments), 1)
 
+    @pytest.mark.django_db
     def test_add_multiple_attachments(self):
         self._setUp_files()
 
@@ -105,6 +115,7 @@ class MailQueueTestCase(TestCase):
 
         self.assertEqual(len(mail.outbox[0].attachments), 2)
 
+    @pytest.mark.django_db
     def test_mailqueue_up(self):
         setattr(settings, "MAILQUEUE_QUEUE_UP", True)
         create_email(subject='Test Email')

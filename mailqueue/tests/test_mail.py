@@ -1,5 +1,5 @@
 from django.test import TestCase
-from mailqueue.models import MailerMessage
+
 from .utils import create_email
 
 
