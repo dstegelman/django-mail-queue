@@ -1,5 +1,6 @@
 from ..models import MailerMessage
 
+
 def create_email(**kwargs):
     """
     Utility function to make creating MailerMessage instances easier when testing.
