@@ -2,6 +2,7 @@ from django.http import HttpResponse
 
 from mailqueue.models import MailerMessage
 
+
 def run_mail_job(request):
     MailerMessage.objects.send_queued()
 
