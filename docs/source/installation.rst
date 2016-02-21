@@ -1,7 +1,7 @@
 Quick Start Guide
 =================
 
-As of 2.0 Django Mail Queue is now Python 3 compatable!
+As of 2.0 Django Mail Queue is now Python 3 compatible!
 
 
 Requirements
@@ -10,10 +10,9 @@ Requirements
 Django Mail Queue requires::
 
     python 2.7 or greater
-    south #If using Django < 1.7
-    django 1.5 or greater
+    django 1.8 or greater
 
-Django Mail Queue is tested against Python 2.7, 3.3 and Django 1.5, 1.6, 1.7 and 1.8.
+Django Mail Queue is tested against Python 2.7, 3.x and Django 1.8 and 1.9.
 
 Installation
 ------------
@@ -31,7 +30,6 @@ Open ``settings.py`` and add ``mailqueue`` to your ``INSTALLED_APPS``::
 
     INSTALLED_APPS = (
         'mailqueue',
-        'south', # only needed for < 1.7
     )
 
 
@@ -61,7 +59,7 @@ If you're running cron from another machine or can't run python directly, you ca
 
 
 Celery (Optional)
-------
+-----------------
 
 Celery is disabled by default, you can turn it on the use of Celery and send emails in real time using ``MAILQUEUE_CELERY`` in settings::
 
@@ -70,7 +68,7 @@ Celery is disabled by default, you can turn it on the use of Celery and send ema
 Instead of using the cron job the celery task worker will attempt to send email email when it's saved.  The cron job will clean up any emails that get lost.
 
 Queue Mail (Optional)
-----------
+---------------------
 
 You can truly queue up mail and send only with the cron job or management command by adding ``MAILQUEUE_QUEUE_UP = True`` to your settings file.  By
 default this functionality is turned off.
