@@ -20,7 +20,7 @@ install:
 # command to run tests
 
 script:
-  - py.test
+  - py.test mailqueue -x
 
 matrix:
   exclude:
