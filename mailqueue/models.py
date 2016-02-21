@@ -1,18 +1,10 @@
-#---------------------------------------------#
-#
-# Mailer will queue up emails, Try to send them
-# and keep track of if they are sent or not.
-# Should be executed with a cron job.
-#
-#---------------------------------------------#
-from django.utils.encoding import python_2_unicode_compatible
-from django.utils.translation import ugettext_lazy as _
 import datetime
 import logging
 import os
 
-logger = logging.getLogger(__name__)
 
+from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.db import models
 from django.core.mail import EmailMultiAlternatives
@@ -22,6 +14,8 @@ from django.conf import settings
 
 from . import defaults
 from .utils import get_storage
+
+logger = logging.getLogger(__name__)
 
 
 class MailerMessageManager(models.Manager):
@@ -55,7 +49,8 @@ class MailerMessage(models.Model):
     html_content = models.TextField(_('HTML Content'), blank=True)
     app = models.CharField(_('App'), max_length=250, blank=True)
     sent = models.BooleanField(_('Sent'), default=False, editable=False)
-    last_attempt = models.DateTimeField(_('Last attempt'), auto_now=False, auto_now_add=False, blank=True, null=True, editable=False)
+    last_attempt = models.DateTimeField(_('Last attempt'), auto_now=False, auto_now_add=False,
+                                        blank=True, null=True, editable=False)
 
     objects = MailerMessageManager()
 
@@ -100,9 +95,9 @@ class MailerMessage(models.Model):
 
             subject, from_email = self.subject, self.from_address
             text_content = self.content
-            
+
             msg = EmailMultiAlternatives(subject, text_content, from_email)
-            
+
             if self.reply_to:
                 msg.extra_headers.update({"reply-to": self.reply_to})
 
@@ -127,7 +122,8 @@ class MailerMessage(models.Model):
 
 @python_2_unicode_compatible
 class Attachment(models.Model):
-    file_attachment = models.FileField(storage=get_storage(), upload_to='mail-queue/attachments', blank=True, null=True)
+    file_attachment = models.FileField(storage=get_storage(), upload_to='mail-queue/attachments',
+                                       blank=True, null=True)
     email = models.ForeignKey(MailerMessage, blank=True, null=True)
 
     class Meta:
@@ -136,6 +132,7 @@ class Attachment(models.Model):
 
     def __str__(self):
         return self.file_attachment.name
+
 
 @receiver(post_save, sender=MailerMessage)
 def send_post_save(sender, instance, signal, *args, **kwargs):

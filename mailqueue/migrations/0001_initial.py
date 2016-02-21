@@ -13,8 +13,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Attachment',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('file_attachment', models.FileField(null=True, upload_to=b'mail-queue/attachments', blank=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False,
+                                        auto_created=True, primary_key=True)),
+                ('file_attachment', models.FileField(null=True,
+                                                     upload_to=b'mail-queue/attachments',
+                                                     blank=True)),
             ],
             options={
                 'verbose_name': 'Attachment',
@@ -25,7 +28,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MailerMessage',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False,
+                                        auto_created=True, primary_key=True)),
                 ('subject', models.CharField(max_length=250, verbose_name='Subject', blank=True)),
                 ('to_address', models.TextField(verbose_name='To')),
                 ('bcc_address', models.TextField(verbose_name='BCC', blank=True)),
@@ -34,7 +38,8 @@ class Migration(migrations.Migration):
                 ('html_content', models.TextField(verbose_name='HTML Content', blank=True)),
                 ('app', models.CharField(max_length=250, verbose_name='App', blank=True)),
                 ('sent', models.BooleanField(default=False, verbose_name='Sent', editable=False)),
-                ('last_attempt', models.DateTimeField(verbose_name='Last attempt', null=True, editable=False, blank=True)),
+                ('last_attempt', models.DateTimeField(verbose_name='Last attempt',
+                                                      null=True, editable=False, blank=True)),
             ],
             options={
                 'verbose_name': 'Message',

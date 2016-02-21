@@ -4,6 +4,7 @@ from django.core.management.base import BaseCommand
 
 from mailqueue.models import MailerMessage
 
+
 class Command(BaseCommand):
     help = 'Can be run as a cronjob or directly to send queued messages.'
 
@@ -19,4 +20,4 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **options):
-        MailerMessage.objects.send_queued(limit = options['limit'])
+        MailerMessage.objects.send_queued(limit=options['limit'])
