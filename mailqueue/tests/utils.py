@@ -1,6 +1,9 @@
+import pytest
+
 from ..models import MailerMessage
 
 
+@pytest.mark.django_db
 def create_email(**kwargs):
     """
     Utility function to make creating MailerMessage instances easier when testing.
