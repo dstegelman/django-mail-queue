@@ -55,3 +55,6 @@ command is called in batches.
 
 - Django 1.9 Support
 - Remove support for < django 1.8
+- Test suite refactor
+- Removed South migrations
+- Cleanup/pep8 fixes
