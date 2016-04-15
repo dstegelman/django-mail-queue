@@ -7,3 +7,4 @@ django_mail_queue.egg-info/
 .vagrant
 Vagrantfile
 .cache
+docs/build
