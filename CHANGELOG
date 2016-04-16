@@ -58,3 +58,4 @@ command is called in batches.
 - Test suite refactor
 - Removed South migrations
 - Cleanup/pep8 fixes
+- Celery 3.x syntax.  Mail queue now requires celery > 3 if using async email sending.
