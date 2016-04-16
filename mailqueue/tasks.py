@@ -4,6 +4,7 @@ from celery import shared_task
 
 from .models import MailerMessage
 
+
 @shared_task(name="tasks.send_mail", default_retry_delay=5, max_retries=5)
 def send_mail(pk):
     message = MailerMessage.objects.get(pk=pk)
