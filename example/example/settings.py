@@ -142,8 +142,14 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'mailqueue'
+    'mailqueue',
+    'kombu.transport.django',
+    'mail_example',
 )
+
+MAILQUEUE_CELERY = False
+BROKER_URL = 'django://'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

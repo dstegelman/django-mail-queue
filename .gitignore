@@ -8,3 +8,4 @@ django_mail_queue.egg-info/
 Vagrantfile
 .cache
 docs/build
+*.db
