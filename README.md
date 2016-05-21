@@ -20,3 +20,13 @@ Support/Help/Spam/Hate Mail
 ---------------------------
 
 If you have questions/problems/suggestions the quickest way to reach me to is simply add a GitHub issue to this project.
+
+Running the Tests Locally
+-------------------------
+
+```
+pip install django
+pip install -r requirements.txt
+
+py.test mailqueue
+```
