@@ -7,4 +7,4 @@ class MailQueueConfig(AppConfig):
     verbose_name = "Mail Queue"
 
     def ready(self):
-        from mailqueue.receivers import *
+        from mailqueue import receivers
