@@ -134,6 +134,9 @@ class Attachment(models.Model):
     def __str__(self):
         return self.file_attachment.name
 
+    def file_attachment.url(self)
+        return None
+
 
 @receiver(pre_save, sender=Attachment)
 def delete_old_file(sender, instance, **kwargs):
