@@ -4,7 +4,6 @@ import os
 
 
 from django.conf import settings
-from django.core.files.storage import FileSystemStorage
 from django.core.mail import EmailMultiAlternatives
 from django.db import models
 from django.db.models.signals import pre_save, post_delete
@@ -17,17 +16,6 @@ from . import defaults
 from .utils import get_storage, upload_to
 
 logger = logging.getLogger(__name__)
-
-
-class MailerStorage(FileSystemStorage):
-    def __init__(self, location=None):
-        if not location:
-            location = settings.MAILQUEUE_ROOT
-        FileSystemStorage.__init__(self, location=location)
-
-    def url(self):
-        return ''
-
 
 
 class MailerMessageManager(models.Manager):
@@ -145,23 +133,3 @@ class Attachment(models.Model):
 
     def __str__(self):
         return self.file_attachment.name
-
-
-@receiver(pre_save, sender=Attachment)
-def delete_old_file(sender, instance, **kwargs):
-    if not instance.pk:
-        return False
-    try:
-        old_file = Attachment.objects.get(pk=instance.pk).file
-    except MediaFile.DoesNotExist:
-        return False
-    new_file = instance.file
-    if not old_file == new_file:
-        if os.path.isfile(old_file.path):
-            os.remove(old_file.path)
-
-
-@receiver(post_delete, sender=Attachment)
-def delete_file_from_filesystem(sender, instance, **kwargs):
-    if instance.file_attachment and os.path.isfile(instance.file_attachment.path):
-        instance.file_attachment.delete(False)

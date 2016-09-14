@@ -1,7 +1,16 @@
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.utils.crypto import get_random_string
-from .models import MailerStorage
+
+
+class MailerStorage(FileSystemStorage):
+    def __init__(self, location=None):
+        if not location:
+            location = settings.MAILQUEUE_ROOT
+        FileSystemStorage.__init__(self, location=location)
+
+    def url(self):
+        return ''
 
 
 def get_storage():
