@@ -3,6 +3,8 @@ import logging
 import os
 
 
+from django.db.models.signals import post_delete
+from django.dispatch.dispatcher import receiver
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
@@ -108,7 +110,8 @@ class MailerMessage(models.Model):
 
             # Add any additional attachments
             for attachment in self.attachment_set.all():
-                msg.attach_file(os.path.join(settings.MEDIA_ROOT, attachment.file_attachment.name))
+                if os.path.isfile(attachment.file_attachment.path):
+                    msg.attach_file(attachment.file_attachment.path)
             try:
                 msg.send()
                 self.sent = True
@@ -116,9 +119,6 @@ class MailerMessage(models.Model):
                 self.do_not_send = True
                 logger.error('Mail Queue Exception: {0}'.format(e))
             self.save()
-
-
-
 
 
 @python_2_unicode_compatible
@@ -133,3 +133,9 @@ class Attachment(models.Model):
 
     def __str__(self):
         return self.file_attachment.name
+
+
+@receiver(post_delete, sender=Attachment)
+def delete_file_from_filesystem(sender, instance, **kwargs):
+    if instance.file_attachment and os.path.isfile(instance.file_attachment.path):
+        instance.file_attachment.delete(False)
