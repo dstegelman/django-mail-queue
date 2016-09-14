@@ -11,7 +11,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 
 from . import defaults
-from .utils import get_storage
+from .utils import get_storage, upload_to
 
 logger = logging.getLogger(__name__)
 
@@ -118,9 +118,12 @@ class MailerMessage(models.Model):
             self.save()
 
 
+
+
+
 @python_2_unicode_compatible
 class Attachment(models.Model):
-    file_attachment = models.FileField(storage=get_storage(), upload_to='mail-queue/attachments',
+    file_attachment = models.FileField(storage=get_storage(), upload_to=upload_to,
                                        blank=True, null=True)
     email = models.ForeignKey(MailerMessage, blank=True, null=True)
 
