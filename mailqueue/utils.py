@@ -17,4 +17,4 @@ def get_storage():
 
 def upload_to(instance, filename):
     # Because instead of filesystem, email message can have multiple attachments with the same filename
-    return 'mailqueue-attahcments/{1}_{2}'.format(filename, get_random_string(length=24))
+    return 'mailqueue-attahcments/{0}_{1}'.format(filename, get_random_string(length=24))
