@@ -3,7 +3,7 @@ import logging
 import os
 
 
-from django.db.models.signals import post_delete
+from django.db.models.signals import pre_save, post_delete
 from django.dispatch.dispatcher import receiver
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -133,6 +133,20 @@ class Attachment(models.Model):
 
     def __str__(self):
         return self.file_attachment.name
+
+
+@receiver(pre_save, sender=Attachment)
+def delete_old_file(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+    try:
+        old_file = Attachment.objects.get(pk=instance.pk).file
+    except MediaFile.DoesNotExist:
+        return False
+    new_file = instance.file
+    if not old_file == new_file:
+        if os.path.isfile(old_file.path):
+            os.remove(old_file.path)
 
 
 @receiver(post_delete, sender=Attachment)
