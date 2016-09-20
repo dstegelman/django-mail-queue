@@ -68,7 +68,7 @@ class MailerMessage(models.Model):
         if self.pk is None:
             self._save_without_sending()
 
-        Attachment.objects.create(email=self, file_attachment=attachment)
+        Attachment.objects.create(email=self, file_attachment=attachment, original_filename=attachment.path)
 
     def _save_without_sending(self, *args, **kwargs):
         """
@@ -125,6 +125,7 @@ class MailerMessage(models.Model):
 class Attachment(models.Model):
     file_attachment = models.FileField(storage=get_storage(), upload_to=upload_to,
                                        blank=True, null=True)
+    original_filename = models.CharField(default=None, max_length=250, blank=False)
     email = models.ForeignKey(MailerMessage, blank=True, null=True)
 
     class Meta:
@@ -132,4 +133,4 @@ class Attachment(models.Model):
         verbose_name_plural = _('Attachments')
 
     def __str__(self):
-        return self.file_attachment.name
+        return self.original_filename
