@@ -110,8 +110,11 @@ class MailerMessage(models.Model):
 
             # Add any additional attachments
             for attachment in self.attachment_set.all():
-                if os.path.isfile(attachment.file_attachment.path):
-                    msg.attach_file(attachment.file_attachment.path)
+                path = attachment.file_attachment.path
+                if os.path.isfile(path):
+                    with open(path, 'rb') as f:
+                        content = f.read()
+                    msg.attach(attachment.original_filename, content, None)
             try:
                 msg.send()
                 self.sent = True
