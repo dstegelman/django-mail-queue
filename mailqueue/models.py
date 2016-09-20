@@ -68,7 +68,8 @@ class MailerMessage(models.Model):
         if self.pk is None:
             self._save_without_sending()
 
-        Attachment.objects.create(email=self, file_attachment=attachment, original_filename=attachment.file.name)
+        Attachment.objects.create(email=self, file_attachment=attachment,
+                                  original_filename=attachment.file.name.split('/')[-1])
 
     def _save_without_sending(self, *args, **kwargs):
         """
