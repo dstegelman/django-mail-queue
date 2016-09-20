@@ -27,7 +27,7 @@ def delete_old_file(sender, instance, **kwargs):
         return False
     try:
         old_file = Attachment.objects.get(pk=instance.pk).file
-    except MediaFile.DoesNotExist:
+    except Attachment.DoesNotExist:
         return False
     new_file = instance.file
     if not old_file == new_file:
