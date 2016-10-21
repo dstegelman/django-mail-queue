@@ -38,6 +38,8 @@ class MailerMessageManager(models.Manager):
 
 @python_2_unicode_compatible
 class MailerMessage(models.Model):
+    created = models.DateTimeField(_('Created'), auto_now_add=True, auto_now=False,
+                                   editable=False, null=True)
     subject = models.CharField(_('Subject'), max_length=250, blank=True)
     to_address = models.TextField(_('To'))
     bcc_address = models.TextField(_('BCC'), blank=True)
