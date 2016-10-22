@@ -3,15 +3,15 @@ import logging
 import os
 
 
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
-from django.db import models
-from django.core.mail import EmailMultiAlternatives
-from django.conf import settings
 
 from . import defaults
-from .utils import get_storage
+from .utils import get_storage, upload_to
 
 logger = logging.getLogger(__name__)
 
@@ -38,6 +38,8 @@ class MailerMessageManager(models.Manager):
 
 @python_2_unicode_compatible
 class MailerMessage(models.Model):
+    created = models.DateTimeField(_('Created'), auto_now_add=True, auto_now=False,
+                                   editable=False, null=True)
     subject = models.CharField(_('Subject'), max_length=250, blank=True)
     to_address = models.TextField(_('To'))
     bcc_address = models.TextField(_('BCC'), blank=True)
@@ -66,7 +68,8 @@ class MailerMessage(models.Model):
         if self.pk is None:
             self._save_without_sending()
 
-        Attachment.objects.create(email=self, file_attachment=attachment)
+        Attachment.objects.create(email=self, file_attachment=attachment,
+                                  original_filename=attachment.file.name.split('/')[-1])
 
     def _save_without_sending(self, *args, **kwargs):
         """
@@ -108,7 +111,11 @@ class MailerMessage(models.Model):
 
             # Add any additional attachments
             for attachment in self.attachment_set.all():
-                msg.attach_file(os.path.join(settings.MEDIA_ROOT, attachment.file_attachment.name))
+                path = attachment.file_attachment.path
+                if os.path.isfile(path):
+                    with open(path, 'rb') as f:
+                        content = f.read()
+                    msg.attach(attachment.original_filename, content, None)
             try:
                 msg.send()
                 self.sent = True
@@ -120,8 +127,9 @@ class MailerMessage(models.Model):
 
 @python_2_unicode_compatible
 class Attachment(models.Model):
-    file_attachment = models.FileField(storage=get_storage(), upload_to='mail-queue/attachments',
+    file_attachment = models.FileField(storage=get_storage(), upload_to=upload_to,
                                        blank=True, null=True)
+    original_filename = models.CharField(default=None, max_length=250, blank=False)
     email = models.ForeignKey(MailerMessage, blank=True, null=True)
 
     class Meta:
@@ -129,4 +137,4 @@ class Attachment(models.Model):
         verbose_name_plural = _('Attachments')
 
     def __str__(self):
-        return self.file_attachment.name
+        return self.original_filename
