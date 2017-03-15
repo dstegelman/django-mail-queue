@@ -8,7 +8,7 @@ You can use this management command to send email if you do not
 setup a cron job or use celery.  You can specify a limit on the
 amount of emails you want to attempt to send at one time.::
 
-    python manage.py send_queued_messages --limit=20
+    python manage.py send_queued_messages 20
 
 
 Clear Sent messages

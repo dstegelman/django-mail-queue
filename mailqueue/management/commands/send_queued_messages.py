@@ -8,14 +8,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         # Positional arguments
-        parser.add_argument('limit', nargs='+', type=int)
-
-        # Named (optional) arguments
-        parser.add_argument('--limit',
-                            action='store_true',
-                            dest='limit',
-                            default=False,
-                            help='Limit the number of emails to process')
+        parser.add_argument('limit', nargs='?', type=int)
 
     def handle(self, *args, **options):
         MailerMessage.objects.send_queued(limit=options['limit'])
