@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         # Positional arguments
-        parser.add_argument('offset', nargs='+', type=int)
+        parser.add_argument('offset', type=int)
 
         # Named (optional) arguments
         parser.add_argument('--offset',
