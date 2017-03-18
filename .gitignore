@@ -1,7 +1,8 @@
 *.pyc
 dist/
 django_mail_queue.egg-info/
-.idea
+.idea/
+.vscode/
 *.iml
 /build
 .vagrant
