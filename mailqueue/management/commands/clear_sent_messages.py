@@ -8,14 +8,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         # Positional arguments
-        parser.add_argument('offset', type=int)
-
-        # Named (optional) arguments
-        parser.add_argument('--offset',
-                            action='store_true',
-                            dest='offset',
-                            default=False,
-                            help='Only clear messages that are more than this many hours old')
+        parser.add_argument('offset', nargs="?", type=int)
 
     def handle(self, *args, **options):
         MailerMessage.objects.clear_sent_messages(offset=options['offset'])
