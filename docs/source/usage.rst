@@ -33,11 +33,11 @@ File attachments can be added to the e-mail with MailerMessage's `add_attachment
 
     message = MailerMessage(to_address="foo@mail.com", from_address="bar@mail.com")
 
-    photo_one = File(open("Poznan_square.jpg", "r"))
+    photo_one = File(open("Poznan_square.jpg", "rb"))
     message.add_attachment(photo_one)
 
     # …you can add more than one file attachment
-    photo_two = File(open("Poznan_Malta-lake.jpg", "r"))
+    photo_two = File(open("Poznan_Malta-lake.jpg", "rb"))
     message.add_attachment(photo_two)
 
     message.save()
