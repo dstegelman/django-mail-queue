@@ -42,6 +42,7 @@ class MailerMessage(models.Model):
                                    editable=False, null=True)
     subject = models.CharField(_('Subject'), max_length=250, blank=True)
     to_address = models.TextField(_('To'))
+    cc_address = models.TextField(_('CC'), blank=True)
     bcc_address = models.TextField(_('BCC'), blank=True)
     from_address = models.EmailField(_('From'), max_length=250)
     reply_to = models.TextField(_('Reply to'), max_length=250, blank=True, null=True)
@@ -107,6 +108,7 @@ class MailerMessage(models.Model):
                 msg.attach_alternative(html_content, "text/html")
 
             msg.to = [email.strip() for email in self.to_address.split(',') if email.strip()]
+            msg.cc = [email.strip() for email in self.cc_address.split(',') if email.strip()]
             msg.bcc = [email.strip() for email in self.bcc_address.split(',') if email.strip()]
 
             # Add any additional attachments

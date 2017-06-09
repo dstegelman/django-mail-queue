@@ -27,4 +27,4 @@ def upload_to(instance, filename):
     filename = filename.split('/')[-1]
     # Because instead of filesystem, email message
     # can have multiple attachments with the same filename
-    return 'mailqueue-attahcments/{0}_{1}'.format(get_random_string(length=24), filename)
+    return 'mailqueue-attachments/{0}_{1}'.format(get_random_string(length=24), filename)
