@@ -103,3 +103,7 @@ against various storages such as S3 Boto.
 To force Django's File System storage::
 
     MAILQUEUE_STORAGE = True
+
+To change the Attachment dir::
+
+    MAILQUEUE_ATTACHMENT_DIR = 'mailqueue-attachments'
