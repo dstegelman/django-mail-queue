@@ -12,6 +12,7 @@ Create a new MailerMessage() object::
     new_message = MailerMessage()
     new_message.subject = "My Subject"
     new_message.to_address = "someone@example.com"
+    new_message.cc_address = "carboncopy@yo.com"
     new_message.bcc_address = "myblindcarboncopy@yo.com"
     new_message.from_address = "hello@example.com"
     new_message.content = "Mail content"
@@ -57,13 +58,14 @@ You can add a reply to header to your emails be setting::
 Sending to Multiple Recipients
 ------------------------------
 
-To include more than one BCC in your email, just separate the addresses with a comma::
+To include more than one CC/BCC in your email, just separate the addresses with a comma::
 
+    message.cc_address = "one@mail.com, two@mail.com, three@mail.com"
     message.bcc_address = "one@mail.com, two@mail.com, three@mail.com"
 
 As of version 2.2.0 multiple recipients may be included in the `to_address` field as well::
 
-    message.bcc_address = "one@mail.com, two@mail.com, three@mail.com"
+    message.to_address = "one@mail.com, two@mail.com, three@mail.com"
 
 
 Using the Management Command

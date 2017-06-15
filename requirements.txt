@@ -1,5 +1,5 @@
-pytest==2.6.4
-pytest-django==2.7.0
-pytest-flakes==0.2
+pytest==3.1.2
+pytest-django==3.1.2
+pytest-flakes==2.0.0
 pytest-pep8==1.0.6
 factory_boy==2.8.1

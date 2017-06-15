@@ -51,15 +51,22 @@ class MailQueueTestCase(TestCase):
         Jane@mail.co.uk,
         john@mail.co.uk, ,  julie@mail.co.uk,
         '''
+        cc_addresses = '''
+                  , Lou@mail.co.uk,
+                lisa@mail.co.uk, ,  lori@mail.co.uk,
+                ,
+                '''
         bcc_addresses = '''
           , Lou@mail.co.uk,
         lisa@mail.co.uk, ,  lori@mail.co.uk,
         ,
         '''
-        MailFactory.create(to_address=addresses, bcc_address=bcc_addresses)
+        MailFactory.create(to_address=addresses, cc_address=cc_addresses, bcc_address=bcc_addresses)
 
         self.assertEqual(mail.outbox[0].to, ["Jane@mail.co.uk", "john@mail.co.uk",
                                              "julie@mail.co.uk"])
+        self.assertEqual(mail.outbox[0].cc, ["Lou@mail.co.uk", "lisa@mail.co.uk",
+                                             "lori@mail.co.uk"])
         self.assertEqual(mail.outbox[0].bcc, ["Lou@mail.co.uk", "lisa@mail.co.uk",
                                               "lori@mail.co.uk"])
 
@@ -68,6 +75,14 @@ class MailQueueTestCase(TestCase):
         MailFactory.create(to_address=addresses)
         self.assertEqual(mail.outbox[0].to, ["Jane@mail.co.uk", "john@mail.co.uk",
                                              "julie@mail.co.uk"])
+
+    def test_single_cc(self):
+        MailFactory.create(cc_address="cc@mail.co.uk")
+        self.assertEqual(mail.outbox[0].cc, ["cc@mail.co.uk"])
+
+    def test_multiple_cc(self):
+        MailFactory.create(cc_address="cc_one@mail.co.uk, cc_two@mail.co.uk")
+        self.assertEqual(mail.outbox[0].cc, ["cc_one@mail.co.uk", "cc_two@mail.co.uk"])
 
     def test_single_bcc(self):
         MailFactory.create(bcc_address="bcc@mail.co.uk")

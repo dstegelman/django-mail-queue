@@ -7,6 +7,7 @@ def create_mail_message(request):
     new_message = MailerMessage()
     new_message.subject = "My Subject"
     new_message.to_address = "someone@example.com"
+    new_message.cc_address = "carboncopy@yo.com"
     new_message.bcc_address = "myblindcarboncopy@yo.com"
     new_message.from_address = "hello@example.com"
     new_message.content = "Mail content"
