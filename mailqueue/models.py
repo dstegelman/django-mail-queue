@@ -4,6 +4,7 @@ import os
 
 
 from django.conf import settings
+from django.core.files.base import ContentFile
 from django.core.mail import EmailMultiAlternatives
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
@@ -69,8 +70,21 @@ class MailerMessage(models.Model):
         if self.pk is None:
             self._save_without_sending()
 
-        Attachment.objects.create(email=self, file_attachment=attachment,
-                                  original_filename=attachment.file.name.split('/')[-1])
+        original_filename = attachment.file.name.split('/')[-1]
+        file_content = ContentFile(attachment.read())
+
+        new_attachment = Attachment()
+        new_attachment.file_attachment.save(original_filename, file_content, save=False)
+        new_attachment.email = self
+        new_attachment.original_filename = original_filename
+        try:
+            new_attachment.save()
+        except Exception as e:
+            logger.error(e)
+            new_attachment.file_attachment.delete()
+
+        # Attachment.objects.create(email=self, file_attachment=attachment,
+        #                           original_filename=attachment.file.name.split('/')[-1])
 
     def _save_without_sending(self, *args, **kwargs):
         """
