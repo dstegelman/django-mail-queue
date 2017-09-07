@@ -83,9 +83,6 @@ class MailerMessage(models.Model):
             logger.error(e)
             new_attachment.file_attachment.delete()
 
-        # Attachment.objects.create(email=self, file_attachment=attachment,
-        #                           original_filename=attachment.file.name.split('/')[-1])
-
     def _save_without_sending(self, *args, **kwargs):
         """
         Saves the MailerMessage instance without sending the e-mail. This ensures
