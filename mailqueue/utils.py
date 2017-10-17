@@ -11,7 +11,7 @@ class MailerStorage(FileSystemStorage):
             location = settings.MAILQUEUE_ROOT
         FileSystemStorage.__init__(self, location=location)
 
-    def url(self):
+    def url(self, **kwargs):
         return ''
 
 
