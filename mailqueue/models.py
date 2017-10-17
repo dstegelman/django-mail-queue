@@ -143,7 +143,7 @@ class Attachment(models.Model):
     file_attachment = models.FileField(storage=get_storage(), upload_to=upload_to,
                                        blank=True, null=True)
     original_filename = models.CharField(default=None, max_length=250, blank=False)
-    email = models.ForeignKey(MailerMessage, blank=True, null=True)
+    email = models.ForeignKey(MailerMessage, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         verbose_name = _('Attachment')
