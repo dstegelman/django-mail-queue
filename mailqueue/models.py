@@ -70,7 +70,7 @@ class MailerMessage(models.Model):
         if self.pk is None:
             self._save_without_sending()
 
-        original_filename = attachment.file.name.split('/')[-1]
+        original_filename = attachment.file.name.split(os.sep)[-1]
         file_content = ContentFile(attachment.read())
 
         new_attachment = Attachment()
