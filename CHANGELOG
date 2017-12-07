@@ -68,7 +68,7 @@ command is called in batches.
 - Add CC addresses
 - Bug fixes
 
-3.1.2 
+3.1.3
 -----
 
 - Fixed filename split on windows via Jiří Král
