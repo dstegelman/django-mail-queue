@@ -51,7 +51,7 @@ class Migration(migrations.Migration):
             model_name='attachment',
             name='email',
             field=models.ForeignKey(
-                on_delete=models.CASCADE,
+                on_delete=models.deletion.CASCADE,
                 blank=True,
                 to='mailqueue.MailerMessage',
                 null=True,
