@@ -50,7 +50,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='attachment',
             name='email',
-            field=models.ForeignKey(blank=True, to='mailqueue.MailerMessage', null=True),
+            field=models.ForeignKey(
+                on_delete=models.deletion.CASCADE,
+                blank=True,
+                to='mailqueue.MailerMessage',
+                null=True,
+            ),
             preserve_default=True,
         ),
     ]
