@@ -72,3 +72,8 @@ command is called in batches.
 -----
 
 - Fixed filename split on windows via Jiří Král
+
+3.1.4
+-----
+
+- Django 2.0 Fixes from hggh
