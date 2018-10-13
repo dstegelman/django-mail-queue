@@ -150,4 +150,4 @@ class Attachment(models.Model):
         verbose_name_plural = _('Attachments')
 
     def __str__(self):
-        return self.original_filename
+        return str(self.original_filename)
