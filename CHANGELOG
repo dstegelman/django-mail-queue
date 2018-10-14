@@ -77,3 +77,8 @@ command is called in batches.
 -----
 
 - Django 2.0 Fixes from hggh
+
+3.1.5
+-----
+
+- Attachment.__str()__() returning None breaks django.debug.technical_500_response from BigSmoke
