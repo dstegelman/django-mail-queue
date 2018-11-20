@@ -112,7 +112,8 @@ class MailerMessage(models.Model):
             msg = EmailMultiAlternatives(subject, text_content, from_email)
 
             if self.reply_to:
-                msg.extra_headers.update({"reply-to": self.reply_to})
+                msg.reply_to = [email.strip() for email in self.reply_to.split(',')
+                                if email.strip()]
 
             if self.html_content:
                 html_content = self.html_content
