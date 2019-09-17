@@ -3,6 +3,8 @@
 Django Mail Queue
 =================
 
+For an up to date and maintained version of this library, please checkout https://github.com/Privex/django-mail-queue
+
 > Looking For Authors!  This project is currently looking for a user to take it over.  If that sounds like you, send a note to derek at stegelman dot com or open up an issue in this repository.
 
 Mail Queue provides an easy and simple way to send email.  Each email is saved and queued up either in
